@@ -8,18 +8,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script type="text/javascript" src="https://cdn.adexium.tech/assets/js/tg-ads-co-widget.min.js"></script>
+
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
     <script type="text/javascript">
         let adexiumAds;
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Adexium only if needed, 'YOUR_WIDGET_ID' must be replaced
+            // Initialize Adexium with the provided Widget ID and store the instance
             if (typeof AdexiumWidget !== 'undefined') {
                  adexiumAds = new AdexiumWidget({
-                    wid: 'YOUR_WIDGET_ID', // *** REPLACE WITH ACTUAL WIDGET ID ***
-                    adFormat: 'push-like' // or 'interstitial'
+                    wid: 'bed6b5f1-19c2-42ed-b33b-38a27d3b431f', // *** USER'S WIDGET ID ***
+                    adFormat: 'interstitial' // Using interstitial for better ad watch flow
                  });
-                 // adexiumAds.autoMode(); // Removing autoMode to manually call in handleWatchDailyAd
+                 // adexiumAds.autoMode(); // Removed autoMode to manually call in handleWatchDailyAd
             } else {
                 console.warn("AdexiumWidget not loaded or defined.");
             }
@@ -804,21 +806,6 @@
             font-size: 0.9rem;
         }
 
-        /* Developer Footer */
-        .developer-footer {
-            text-align: center;
-            padding: 12px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 20px;
-        }
-
-        .developer-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
         /* Toast Notification */
         .toast {
             position: fixed;
@@ -857,19 +844,9 @@
             }
         }
     </style>
-<link rel="me" href="https://www.blogger.com/profile/00275839818633085595" />
+    <link rel="me" href="https://www.blogger.com/profile/00275839818633085595" />
 <meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
 <meta name='google-adsense-platform-domain' content='blogspot.com'/>
-
-<script type="text/javascript" language="javascript">
-  // Supply ads personalization default for EEA readers
-  // See https://www.blogger.com/go/adspersonalization
-  adsbygoogle = window.adsbygoogle || [];
-  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
-    adsbygoogle.requestNonPersonalizedAds = 1;
-  }
-</script>
-
 </head>
 <body>
     <div class="app-container">
@@ -950,23 +927,22 @@
 
     <script>
         // Configuration (Updated to reflect requested changes)
-        const APP_NAME = "𝐌𝐨𝐧𝐞𝐲 𝐂𝐫𝐚𝐬𝐡"; // Changed app name
+        const APP_NAME = "𝐌𝐨𝐧𝐞𝐲 𝐂𝐫𝐚𝐬𝐡";
         const ADS_PER_DAY_LIMIT = 50;
-        const POINTS_PER_AD = 5; // Changed from 10 points to 5 টাকা
-        const CURRENCY = "টাকা"; // New currency
-        const MIN_WITHDRAW_POINTS = 700; // Changed minimum withdrawal to 700 টাকা
-        const MIN_REFERRALS_FOR_WITHDRAW = 8; // New withdrawal rule
-        const REFERRAL_BONUS_REFERRER = 5; // Changed referral bonus to 5 টাকা
-        const REFERRAL_BONUS_REFEREE = 5; // Changed referral bonus to 5 টাকা
-        // const MONETAG_AD_FUNCTION_NAME = 'show_9832391'; // Removed Monetag
+        const POINTS_PER_AD = 5; // 5 টাকা per ad
+        const CURRENCY = "টাকা";
+        const MIN_WITHDRAW_POINTS = 700; // Minimum withdrawal 700 টাকা
+        const MIN_REFERRALS_FOR_WITHDRAW = 8; // Withdrawal requires 8 referrals
+        const REFERRAL_BONUS_REFERRER = 5; // 5 টাকা for referrer
+        const REFERRAL_BONUS_REFEREE = 5; // 5 টাকা for referee
         const TELEGRAM_BOT_TOKEN = "7665023919:AAEnscPSGbqiRBlQqm6IU_Is5QUaryV5Voc"; 
         const TELEGRAM_CHAT_ID = "-1002695845028"; 
-        const OFFICIAL_CHANNEL_LINK = "https://t.me/Feeddy735"; // Updated channel link
-        const REFERRAL_BOT_LINK = "https://t.me/Tag2Cashbot"; // Kept bot link, consider changing this later
+        const OFFICIAL_CHANNEL_LINK = "https://t.me/Feeddy735"; 
+        const REFERRAL_BOT_LINK = "https://t.me/Tag2Cashbot"; 
 
         // Only one channel for Bonus task
         const BONUS_CHANNELS = [
-            { id: 'tg_official_channel', name: 'Official Channel', link: OFFICIAL_CHANNEL_LINK, reward: 50, icon: 'fab fa-telegram-plane' } // Small fixed bonus reward
+            { id: 'tg_official_channel', name: 'Official Channel', link: OFFICIAL_CHANNEL_LINK, reward: 50, icon: 'fab fa-telegram-plane' }
         ];
 
         // DOM Elements
@@ -1011,7 +987,7 @@
             }, duration);
         }
 
-        // Generate a unique device ID for each user (Kept as is for user data isolation)
+        // Generate a unique device ID
         function generateDeviceId() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -1019,20 +995,20 @@
             });
         }
 
-        // Generate a referral code (Kept as is)
+        // Generate a referral code
         function generateReferralCode() {
             return Math.random().toString(36).substring(2, 10).toUpperCase();
         }
 
-        // Load user state from localStorage or Telegram WebApp (Updated localStorage key)
+        // Load user state from localStorage or Telegram WebApp
         function loadUserState() {
-            let deviceId = localStorage.getItem('moneyCrashDeviceId'); // Updated key
+            let deviceId = localStorage.getItem('moneyCrashDeviceId');
             if (!deviceId) {
                 deviceId = generateDeviceId();
-                localStorage.setItem('moneyCrashDeviceId', deviceId); // Updated key
+                localStorage.setItem('moneyCrashDeviceId', deviceId);
             }
 
-            let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {}; // Updated key
+            let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
 
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe.user) {
                 const tgUser = Telegram.WebApp.initDataUnsafe.user;
@@ -1042,7 +1018,7 @@
                     currentUser = existingUser;
                     const existingDeviceIdForTgUser = Object.keys(allUsersData).find(id => allUsersData[id].telegramId === tgUser.id);
                     if (existingDeviceIdForTgUser && existingDeviceIdForTgUser !== deviceId) {
-                         localStorage.setItem('moneyCrashDeviceId', existingDeviceIdForTgUser); // Updated key
+                         localStorage.setItem('moneyCrashDeviceId', existingDeviceIdForTgUser);
                          deviceId = existingDeviceIdForTgUser;
                          currentUser = allUsersData[deviceId];
                     } else {
@@ -1052,7 +1028,7 @@
                             telegramId: tgUser.id
                         });
                         allUsersData[deviceId] = currentUser;
-                        localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData)); // Updated key
+                        localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
                     }
                 } else {
                     currentUser = {
@@ -1069,7 +1045,7 @@
                         referredUsers: []
                     };
                     allUsersData[deviceId] = currentUser;
-                    localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData)); // Updated key
+                    localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
                 }
             } else {
                 if (!allUsersData[deviceId]) {
@@ -1086,7 +1062,7 @@
                         referredBy: null,
                         referredUsers: []
                     };
-                    localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData)); // Updated key
+                    localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
                 }
                 currentUser = allUsersData[deviceId];
             }
@@ -1110,13 +1086,13 @@
             updateUI();
         }
 
-        // Apply referral code (Updated localStorage key and bonus amount)
+        // Apply referral code
         function applyReferral(referrerCode) {
             if (referrerCode === currentUser.referralCode || currentUser.referredBy) {
                 return;
             }
 
-            let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {}; // Updated key
+            let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
             const referrerUser = Object.values(allUsersData).find(user => user.referralCode === referrerCode);
 
             if (referrerUser) {
@@ -1135,7 +1111,7 @@
                     allUsersData[referrerDeviceId] = referrerUser;
                 }
 
-                localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData)); // Updated key
+                localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
                 showToast(`+${REFERRAL_BONUS_REFEREE} ${CURRENCY} bonus for joining via referral!`);
                 sendTelegramReferralNotification(
                     currentUser.name,
@@ -1157,7 +1133,7 @@
                 Telegram.WebApp.enableClosingConfirmation();
             }
             loadUserState();
-            applyTheme(localStorage.getItem('moneyCrashTheme') || 'light'); // Updated key
+            applyTheme(localStorage.getItem('moneyCrashTheme') || 'light');
 
             navigateTo('home');
 
@@ -1173,18 +1149,18 @@
             adCloseBtn.addEventListener('click', closeAdModalAndReward);
         });
 
-        // Theme management (Updated localStorage key)
+        // Theme management
         function applyTheme(theme) {
             document.body.classList.toggle('dark-mode', theme === 'dark');
             themeToggleBtn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            localStorage.setItem('moneyCrashTheme', theme); // Updated key
+            localStorage.setItem('moneyCrashTheme', theme);
         }
 
         function toggleTheme() {
             applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
         }
 
-        // Update UI elements (Updated currency)
+        // Update UI elements
         function updateUI() {
             profileNameDisplay.innerHTML = `
                 ${currentUser.name}
@@ -1241,7 +1217,7 @@
             updateUI();
         }
 
-        // Page renderers (Updated APP_NAME and currency)
+        // Page renderers
         function renderHomePage() {
             mainContent.innerHTML = `
                 <div class="task-card">
@@ -1347,6 +1323,7 @@
         }
 
         function renderWithdrawPage() {
+            const referredUsersCount = currentUser.referredUsers ? currentUser.referredUsers.length : 0;
             mainContent.innerHTML = `
                 <div class="task-card">
                     <h2 class="section-title">
@@ -1359,7 +1336,7 @@
  Minimum withdrawal is ${MIN_WITHDRAW_POINTS} ${CURRENCY}.</b>
                     </p>
                     <p class="task-description" style="color: #E64A4A; font-weight: 600;">
-                        আপনাকে উওোলন করতে হলে মিনিমাম ${MIN_REFERRALS_FOR_WITHDRAW} টা রেফার করা লাগবে।
+                        আপনাকে উওোলন করতে হলে মিনিমাম ${MIN_REFERRALS_FOR_WITHDRAW} টা রেফার করা লাগবে। (Your Current Referrals: ${referredUsersCount})
                     </p>
                     <div class="input-group">
                         <label class="input-label">Amount (${CURRENCY})</label>
@@ -1397,7 +1374,7 @@
                 referredUsersListHtml = `
                     <h3 style="margin: 20px 0 10px; font-size: 1rem; color: var(--text-secondary);">Your Referrals (${referredUsersCount})</h3>
                     <div class="referred-users">`;
-                const allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {}; // Updated key
+                const allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
                 currentUser.referredUsers.forEach(refCode => {
                     const referredUser = Object.values(allUsersData).find(user => user.referralCode === refCode);
                     const name = referredUser ? referredUser.name : `User ${refCode}`;
@@ -1448,7 +1425,7 @@
                     <div class="referral-stats">
                         <div class="stat-card">
                             <div class="stat-number">${REFERRAL_BONUS_REFERRER} ${CURRENCY}</div>
-                            <div class="stat-title">Per Referral</div>
+                            <div class="stat-title">Per Referral</div
                         </div>
                         <div class="stat-card">
                             <div class="stat-number">${referredUsersCount}</div>
@@ -1491,7 +1468,7 @@
             });
         }
 
-        // Ad handling (Updated ad network logic)
+        // Ad handling (Updated ad network logic for Adexium)
         let adWatchedSuccessfully = false;
         let adRewardPending = false;
 
@@ -1516,7 +1493,7 @@
             adCloseBtn.style.display = 'none';
             adStatusMessage.textContent = "Please wait while we load the ad";
             
-            // New Adexium Logic
+            // Adexium Logic
             if (typeof adexiumAds !== 'undefined') {
                 adModalTitle.textContent = "Ad Playing";
                 adStatusMessage.textContent = "Please wait for the ad to close automatically.";
@@ -1524,10 +1501,9 @@
                 // Show the ad
                 const adPromise = adexiumAds.showInterstitial();
 
-                // Adexium typically resolves the promise after the ad is shown/closed
                 if (adPromise && typeof adPromise.then === 'function') {
                     adPromise.then(() => {
-                        // This usually means the ad has been shown and closed.
+                        // The ad has been shown and closed.
                         adWatchedSuccessfully = true;
                         if (adRewardPending) {
                             adSpinner.style.display = 'none';
@@ -1535,12 +1511,14 @@
                             adCloseBtn.style.display = 'block';
                         }
                     }).catch(error => {
+                        // Handle ad loading/showing error or early closure
                         handleAdError("Ad error or closed early. No reward.");
                         console.error("Adexium ad error:", error);
                     });
                 } else {
-                    // Fallback simulation if promise is not returned as expected (shouldn't happen with Adexium)
+                    // Fallback simulation
                     console.warn("Adexium did not return a promise, simulating ad watch...");
+                    adStatusMessage.textContent = "Ad will finish in 5 seconds (simulation).";
                     setTimeout(() => {
                         if (adRewardPending) {
                             adSpinner.style.display = 'none';
@@ -1636,7 +1614,7 @@
             }, 7000);
         }
 
-        // Withdrawal handling (Updated currency, minimums, and added referral check)
+        // Withdrawal handling (with referral check)
         function handleSubmitWithdrawal() {
             const amount = parseInt(document.getElementById('withdrawAmountInput').value);
             const method = document.getElementById('withdrawMethodSelect').value;
@@ -1712,7 +1690,7 @@
             document.getElementById('withdrawAccountInput').value = "";
         }
 
-        // Telegram integration (Kept as is)
+        // Telegram integration
         function sendToTelegram(message) {
             if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN.includes("YOUR_TELEGRAM_BOT_TOKEN") || !TELEGRAM_CHAT_ID) {
                 console.warn("Telegram Bot not configured. Message not sent.");
@@ -1803,7 +1781,7 @@ Referral From:
             .catch(error => console.error('Error sending referral Telegram message:', error));
         }
 
-        // Save user state to localStorage (Updated localStorage key)
+        // Save user state to localStorage
         function saveUserState() {
             const deviceId = localStorage.getItem('moneyCrashDeviceId');
             let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
@@ -1811,17 +1789,5 @@ Referral From:
             localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
         }
     </script>
-
-    <script src="/js/cookienotice.js" defer></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function(event) {
-    window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
-        (window.cookieOptions && cookieOptions.msg) || 'Den här webbplatsen använder cookies från Google för att tillhandahålla tjänster och analysera trafik. Din IP-adress och användaragent delas med Google tillsammans med information om prestanda och säkerhet för att garantera tjänstens kvalitet, generera användningsstatistik samt upptäcka och förhindra otillåten användning.',
-        (window.cookieOptions && cookieOptions.close) || 'OK',
-        (window.cookieOptions && cookieOptions.learn) || 'Läs mer',
-        (window.cookieOptions && cookieOptions.link) || 'https://www.blogger.com/go/blogspot-cookies');
-  });
-</script>
-
 </body>
 </html>
