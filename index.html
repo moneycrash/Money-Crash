@@ -932,13 +932,13 @@
         const POINTS_PER_AD = 5; // 5 টাকা per ad
         const CURRENCY = "টাকা";
         const MIN_WITHDRAW_POINTS = 700; // Minimum withdrawal 700 টাকা
-        const MIN_REFERRALS_FOR_WITHDRAW = 8; // Withdrawal requires 8 referrals
+        const MIN_REFERRALS_FOR_WITHDRAW = 7; // Withdrawal requires 7 referrals (Changed from 8 to 7)
         const REFERRAL_BONUS_REFERRER = 5; // 5 টাকা for referrer
         const REFERRAL_BONUS_REFEREE = 5; // 5 টাকা for referee
         const TELEGRAM_BOT_TOKEN = "7665023919:AAEnscPSGbqiRBlQqm6IU_Is5QUaryV5Voc"; 
         const TELEGRAM_CHAT_ID = "-1002695845028"; 
         const OFFICIAL_CHANNEL_LINK = "https://t.me/Feeddy735"; 
-        const REFERRAL_BOT_LINK = "https://t.me/Tag2Cashbot"; 
+        const REFERRAL_BOT_LINK = "http://t.me/money_crash0_bot"; // Updated Referral Bot Link
 
         // Only one channel for Bonus task
         const BONUS_CHANNELS = [
@@ -962,8 +962,13 @@
         const adStatusMessage = document.getElementById('adStatusMessage');
         const adCloseBtn = document.getElementById('adCloseBtn');
         const toast = document.getElementById('toast');
+        
+        // Key for storing all users data (Telegram ID mapped to user object)
+        const ALL_USERS_STORAGE_KEY = 'moneyCrashAllUsersTgIdMap'; 
+        // Key for storing the device ID (used for fallback/linking)
+        const DEVICE_ID_KEY = 'moneyCrashDeviceId'; 
 
-        // Current user state
+        // Current user state - Initialized with default structure
         let currentUser = {
             name: 'Loading...',
             telegramId: null,
@@ -987,8 +992,8 @@
             }, duration);
         }
 
-        // Generate a unique device ID
-        function generateDeviceId() {
+        // Generate a unique ID (used for guest users/referral code)
+        function generateUniqueId() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
@@ -1002,35 +1007,25 @@
 
         // Load user state from localStorage or Telegram WebApp
         function loadUserState() {
-            let deviceId = localStorage.getItem('moneyCrashDeviceId');
-            if (!deviceId) {
-                deviceId = generateDeviceId();
-                localStorage.setItem('moneyCrashDeviceId', deviceId);
-            }
-
-            let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
+            let allUsersData = JSON.parse(localStorage.getItem(ALL_USERS_STORAGE_KEY)) || {};
+            let currentKey = null; // This will be Telegram ID or Device ID
 
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe.user) {
+                // *** Telegram User Detected - Use TG ID for persistence ***
                 const tgUser = Telegram.WebApp.initDataUnsafe.user;
-                const existingUser = Object.values(allUsersData).find(user => user.telegramId === tgUser.id);
+                currentKey = tgUser.id.toString();
 
-                if (existingUser) {
-                    currentUser = existingUser;
-                    const existingDeviceIdForTgUser = Object.keys(allUsersData).find(id => allUsersData[id].telegramId === tgUser.id);
-                    if (existingDeviceIdForTgUser && existingDeviceIdForTgUser !== deviceId) {
-                         localStorage.setItem('moneyCrashDeviceId', existingDeviceIdForTgUser);
-                         deviceId = existingDeviceIdForTgUser;
-                         currentUser = allUsersData[deviceId];
-                    } else {
-                        Object.assign(currentUser, {
-                            name: `${tgUser.first_name || ''} ${tgUser.last_name || ''}`.trim() || currentUser.name,
-                            photoUrl: tgUser.photo_url || currentUser.photoUrl,
-                            telegramId: tgUser.id
-                        });
-                        allUsersData[deviceId] = currentUser;
-                        localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
-                    }
+                if (allUsersData[currentKey]) {
+                    // Existing user data found using TG ID
+                    currentUser = allUsersData[currentKey];
+                    // Update name/photo in case it changed on Telegram
+                    Object.assign(currentUser, {
+                        name: `${tgUser.first_name || ''} ${tgUser.last_name || ''}`.trim() || currentUser.name,
+                        photoUrl: tgUser.photo_url || currentUser.photoUrl,
+                        telegramId: tgUser.id
+                    });
                 } else {
+                    // New user or first time loading on this device
                     currentUser = {
                         name: `${tgUser.first_name || ''} ${tgUser.last_name || ''}`.trim() || `User${tgUser.id}`,
                         telegramId: tgUser.id,
@@ -1044,14 +1039,24 @@
                         referredBy: null,
                         referredUsers: []
                     };
-                    allUsersData[deviceId] = currentUser;
-                    localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
                 }
             } else {
-                if (!allUsersData[deviceId]) {
-                    allUsersData[deviceId] = {
+                // *** Guest User (No Telegram WebApp context) - Use Device ID as fallback ***
+                let deviceId = localStorage.getItem(DEVICE_ID_KEY);
+                if (!deviceId) {
+                    deviceId = generateUniqueId();
+                    localStorage.setItem(DEVICE_ID_KEY, deviceId);
+                }
+                currentKey = deviceId;
+
+                let guestUserData = JSON.parse(localStorage.getItem(`moneyCrashGuestUser_${deviceId}`)) || {};
+                
+                if (Object.keys(guestUserData).length > 0) {
+                     currentUser = guestUserData;
+                } else {
+                    currentUser = {
                         name: 'Guest User',
-                        telegramId: null,
+                        telegramId: null, // Explicitly null for guest
                         photoUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                         points: 0,
                         adsWatchedToday: 0,
@@ -1062,10 +1067,11 @@
                         referredBy: null,
                         referredUsers: []
                     };
-                    localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
                 }
-                currentUser = allUsersData[deviceId];
             }
+
+            // Save the loaded (or newly created) user state immediately
+            saveUserState(currentKey); 
 
             if (currentUser.photoUrl) {
                 profilePic.src = currentUser.photoUrl;
@@ -1075,8 +1081,10 @@
             const refCodeFromUrl = urlParams.get('start') || urlParams.get('ref');
 
             if (refCodeFromUrl && !currentUser.referredBy && refCodeFromUrl !== currentUser.referralCode) {
-                const referrerExists = Object.values(allUsersData).some(user => user.referralCode === refCodeFromUrl);
-                if (referrerExists) {
+                // Find referrer from all stored users (only those with TG ID have persistent referrals)
+                const referrerUser = Object.values(allUsersData).find(user => user.referralCode === refCodeFromUrl);
+                
+                if (referrerUser) {
                     applyReferral(refCodeFromUrl);
                 } else {
                     console.warn(`Referral code '${refCodeFromUrl}' from URL is not valid.`);
@@ -1086,32 +1094,48 @@
             updateUI();
         }
 
+        // Save user state to localStorage
+        function saveUserState(keyOverride = null) {
+            if (currentUser.telegramId) {
+                // Saving Telegram User Data
+                let allUsersData = JSON.parse(localStorage.getItem(ALL_USERS_STORAGE_KEY)) || {};
+                allUsersData[currentUser.telegramId.toString()] = currentUser;
+                localStorage.setItem(ALL_USERS_STORAGE_KEY, JSON.stringify(allUsersData));
+            } else {
+                // Saving Guest User Data
+                const deviceId = localStorage.getItem(DEVICE_ID_KEY) || generateUniqueId();
+                 localStorage.setItem(`moneyCrashGuestUser_${deviceId}`, JSON.stringify(currentUser));
+            }
+        }
+
         // Apply referral code
         function applyReferral(referrerCode) {
-            if (referrerCode === currentUser.referralCode || currentUser.referredBy) {
+            if (referrerCode === currentUser.referralCode || currentUser.referredBy || !currentUser.telegramId) {
+                // Only apply referral if it's a valid new user with a Telegram ID
                 return;
             }
 
-            let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
-            const referrerUser = Object.values(allUsersData).find(user => user.referralCode === referrerCode);
+            let allUsersData = JSON.parse(localStorage.getItem(ALL_USERS_STORAGE_KEY)) || {};
+            const referrerKey = Object.keys(allUsersData).find(key => allUsersData[key].referralCode === referrerCode);
+            const referrerUser = referrerKey ? allUsersData[referrerKey] : null;
 
             if (referrerUser) {
                 currentUser.points += REFERRAL_BONUS_REFEREE;
                 currentUser.referredBy = referrerCode;
 
                 referrerUser.points += REFERRAL_BONUS_REFERRER;
-                if (referrerUser.referredUsers) {
+                if (!referrerUser.referredUsers) {
+                    referrerUser.referredUsers = [];
+                }
+                // Prevent duplicate referral entries
+                if (!referrerUser.referredUsers.includes(currentUser.referralCode)) {
                     referrerUser.referredUsers.push(currentUser.referralCode);
-                } else {
-                    referrerUser.referredUsers = [currentUser.referralCode];
                 }
+                
+                allUsersData[referrerKey] = referrerUser;
+                allUsersData[currentUser.telegramId.toString()] = currentUser;
 
-                const referrerDeviceId = Object.keys(allUsersData).find(id => allUsersData[id].referralCode === referrerCode);
-                if (referrerDeviceId) {
-                    allUsersData[referrerDeviceId] = referrerUser;
-                }
-
-                localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
+                localStorage.setItem(ALL_USERS_STORAGE_KEY, JSON.stringify(allUsersData));
                 showToast(`+${REFERRAL_BONUS_REFEREE} ${CURRENCY} bonus for joining via referral!`);
                 sendTelegramReferralNotification(
                     currentUser.name,
@@ -1169,11 +1193,23 @@
                     <i class="fas fa-pencil-alt"></i>
                 </button>
             `;
-            document.getElementById('editNameBtn').addEventListener('click', promptForNewName);
+            // Re-add event listener as innerHTML overwrites it
+            document.getElementById('editNameBtn').addEventListener('click', promptForNewName); 
 
             userPointsDisplay.innerHTML = `<i class="fas fa-coins"></i> ${currentUser.points} ${CURRENCY}`;
+            
+            // Recalculate ads watched today based on date
+            const today = new Date().toLocaleDateString();
+            if (currentUser.lastAdWatchDate !== today) {
+                currentUser.adsWatchedToday = 0;
+                // No need to set lastAdWatchDate here, it's set on watch
+                // saveUserState(); // Don't save yet, wait for ad watch
+            }
+
+            const adsLeft = ADS_PER_DAY_LIMIT - currentUser.adsWatchedToday;
+
             adsWatchedTodayEl.textContent = currentUser.adsWatchedToday;
-            adsLeftTodayEl.textContent = ADS_PER_DAY_LIMIT - currentUser.adsWatchedToday;
+            adsLeftTodayEl.textContent = adsLeft;
             totalAdsWatchedEl.textContent = currentUser.totalAdsWatchedLifetime;
 
             if (currentUser.photoUrl) {
@@ -1182,7 +1218,11 @@
 
             const watchBtn = document.getElementById('watchDailyAdBtn');
             if (watchBtn) {
-                watchBtn.disabled = (ADS_PER_DAY_LIMIT - currentUser.adsWatchedToday <= 0);
+                watchBtn.disabled = (adsLeft <= 0);
+                // Also update the button text to show if limit is reached
+                watchBtn.textContent = adsLeft <= 0 ? 
+                                       `Daily Limit Reached` : 
+                                       `\u{f144} Watch Ad & Earn ${POINTS_PER_AD} ${CURRENCY}`; // \u{f144} is fas fa-play
             }
         }
 
@@ -1219,6 +1259,8 @@
 
         // Page renderers
         function renderHomePage() {
+            const referredUsersCount = currentUser.referredUsers ? currentUser.referredUsers.length : 0;
+            const adsLeft = ADS_PER_DAY_LIMIT - currentUser.adsWatchedToday;
             mainContent.innerHTML = `
                 <div class="task-card">
                     <h2 class="section-title">
@@ -1229,7 +1271,7 @@
                     </p>
                     <div class="stats-display" style="justify-content: space-between; margin-top: 20px; gap: 8px;">
                         <div class="stat-item" style="flex: 1; margin: 0 4px;">
-                            <div class="stat-value">${ADS_PER_DAY_LIMIT - currentUser.adsWatchedToday}</div>
+                            <div class="stat-value">${adsLeft}</div>
                             <div class="stat-label">Ads Left</div>
                         </div>
                         <div class="stat-item" style="flex: 1; margin: 0 4px;">
@@ -1237,7 +1279,7 @@
                             <div class="stat-label">${CURRENCY}</div>
                         </div>
                         <div class="stat-item" style="flex: 1; margin: 0 4px;">
-                            <div class="stat-value">${currentUser.referredUsers ? currentUser.referredUsers.length : 0}</div>
+                            <div class="stat-value">${referredUsersCount}</div>
                             <div class="stat-label">Referrals</div>
                         </div>
                     </div>
@@ -1253,6 +1295,10 @@
         function renderTasksPage() {
             const adsLeft = ADS_PER_DAY_LIMIT - currentUser.adsWatchedToday;
             const progressPercent = (currentUser.adsWatchedToday / ADS_PER_DAY_LIMIT) * 100;
+            const btnText = adsLeft <= 0 ? 
+                            `Daily Limit Reached` : 
+                            `<i class="fas fa-play"></i> Watch Ad & Earn ${POINTS_PER_AD} ${CURRENCY}`;
+            
             mainContent.innerHTML = `
                 <div class="task-card">
                     <div class="task-header">
@@ -1275,7 +1321,7 @@
                         </div>
                     </div>
                     <button class="btn btn-primary" id="watchDailyAdBtn" ${adsLeft <= 0 ? 'disabled' : ''}>
-                        <i class="fas fa-play"></i> Watch Ad & Earn ${POINTS_PER_AD} ${CURRENCY}
+                        ${btnText}
                     </button>
                 </div>
                 `;
@@ -1368,16 +1414,19 @@
         function renderReferralPage() {
             const referralLink = `${REFERRAL_BOT_LINK}?start=${currentUser.referralCode}`;
             const referredUsersCount = currentUser.referredUsers ? currentUser.referredUsers.length : 0;
+            const allUsersData = JSON.parse(localStorage.getItem(ALL_USERS_STORAGE_KEY)) || {};
 
             let referredUsersListHtml = '';
             if (referredUsersCount > 0) {
                 referredUsersListHtml = `
                     <h3 style="margin: 20px 0 10px; font-size: 1rem; color: var(--text-secondary);">Your Referrals (${referredUsersCount})</h3>
                     <div class="referred-users">`;
-                const allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
+                
+                // Get data for referred users who have Telegram IDs
                 currentUser.referredUsers.forEach(refCode => {
                     const referredUser = Object.values(allUsersData).find(user => user.referralCode === refCode);
                     const name = referredUser ? referredUser.name : `User ${refCode}`;
+                    
                     referredUsersListHtml += `
                         <div class="user-item">
                             <div class="user-avatar">
@@ -1456,7 +1505,7 @@
                 if (navigator.share) {
                     navigator.share({
                         title: `${APP_NAME} - Earn ${CURRENCY}!`,
-                        text: `Join ${APP_NAME} using my referral code ${currentUser.referralCode} and we both get bonus ${CURRENCY}!`,
+                        text: `Join ${APP_NAME} using my referral link and code ${currentUser.referralCode} to get a bonus!`,
                         url: referralLink,
                     }).catch((error) => console.log('Error sharing', error));
                 } else {
@@ -1473,11 +1522,12 @@
         let adRewardPending = false;
 
         function handleWatchDailyAd() {
+            // Recalculate ads watched today based on date at the moment of action
             const today = new Date().toLocaleDateString();
             if (currentUser.lastAdWatchDate !== today) {
                 currentUser.adsWatchedToday = 0;
                 currentUser.lastAdWatchDate = today;
-                saveUserState();
+                // No need to save here, save after watching ad
             }
 
             if (currentUser.adsWatchedToday >= ADS_PER_DAY_LIMIT) {
@@ -1516,7 +1566,7 @@
                         console.error("Adexium ad error:", error);
                     });
                 } else {
-                    // Fallback simulation
+                    // Fallback simulation for non-promise returning ad network
                     console.warn("Adexium did not return a promise, simulating ad watch...");
                     adStatusMessage.textContent = "Ad will finish in 5 seconds (simulation).";
                     setTimeout(() => {
@@ -1571,7 +1621,7 @@
                 currentUser.totalAdsWatchedLifetime++;
                 currentUser.lastAdWatchDate = new Date().toLocaleDateString();
                 updateUI();
-                saveUserState();
+                saveUserState(); // Save after successful reward
                 showToast(`+${POINTS_PER_AD} ${CURRENCY} earned!`);
             } else if (adRewardPending && !adWatchedSuccessfully) {
                 showToast("Ad not completed. No points awarded.");
@@ -1655,6 +1705,12 @@
                 statusMsg.classList.add('error-message');
                 return;
             }
+            if (!currentUser.telegramId) {
+                statusMsg.textContent = "Withdrawal is only possible for users logged in via Telegram Mini App.";
+                statusMsg.classList.add('error-message');
+                return;
+            }
+
 
             const escapeMarkdown = (text) => {
                 // Escape special characters for MarkdownV2
@@ -1666,6 +1722,7 @@
 ------------------------------------
 🕵️ *𝗔𝗽𝗽 𝗡𝗮𝗺𝗲 :* \`${escapeMarkdown(APP_NAME)}\`
 👤 *𝗨𝘀𝗲𝗿 𝗡𝗮𝗺𝗲 :* \`${escapeMarkdown(currentUser.name)}\`
+🆔 *𝗧𝗚 𝗨𝘀𝗲𝗿 𝗜𝗗 :* \`${currentUser.telegramId}\`
 💰 *𝗔𝗺𝗼𝘂𝗻𝘁 :* ${amount} ${escapeMarkdown(CURRENCY)}
 💳 *𝗠𝗲𝘁𝗵𝗼𝗱 :* ${escapeMarkdown(method)}
 🏦 *𝗔𝗰𝗰𝗼𝘂𝗻𝘁 :* \`${escapeMarkdown(account)}\`
@@ -1712,17 +1769,17 @@
             .then(response => response.json())
             .then(data => {
                 if (!data.ok) {
-                    console.warn('Telegram API error:', data.description);
+                    console.warn('Telegram API error (MarkdownV2 failed), retrying with plain text:', data.description);
                     fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             chat_id: TELEGRAM_CHAT_ID,
-                            text: message.replace(/[*_`\[\]()~>#+\-=|{}.!]/g, '')
+                            text: message.replace(/[*_`\[\]()~>#+\-=|{}.!]/g, '') // Send plain text
                         })
                     }).then(res => res.json()).then(plainData => {
                         if (!plainData.ok) {
-                            console.error('Plain text Telegram message failed:', plainData.description);
+                            console.error('Plain text Telegram message also failed:', plainData.description);
                         }
                     });
                 }
@@ -1767,7 +1824,7 @@ Referral From:
             .then(response => response.json())
             .then(data => {
                 if (!data.ok) {
-                    console.warn('Telegram API error for referral notification:', data.description);
+                    console.warn('Telegram API error for referral notification (MarkdownV2 failed), retrying with plain text:', data.description);
                     fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1779,14 +1836,6 @@ Referral From:
                 }
             })
             .catch(error => console.error('Error sending referral Telegram message:', error));
-        }
-
-        // Save user state to localStorage
-        function saveUserState() {
-            const deviceId = localStorage.getItem('moneyCrashDeviceId');
-            let allUsersData = JSON.parse(localStorage.getItem('moneyCrashAllUsers')) || {};
-            allUsersData[deviceId] = currentUser;
-            localStorage.setItem('moneyCrashAllUsers', JSON.stringify(allUsersData));
         }
     </script>
 </body>
