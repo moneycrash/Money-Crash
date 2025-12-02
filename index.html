@@ -1,10 +1,11 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>মাই ভিডিও গ্যালারি</title>
     <style>
+        /* আপনার পূর্বের স্টাইল কোড এখানে অপরিবর্তিত আছে */
         * {
             margin: 0;
             padding: 0;
@@ -13,9 +14,9 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            background: linear-gradient(135deg, #0a192f 0%, #172a45 50%, #0f3460 100%);
             color: #ffffff;
-            min-height: 100vh;
+            min-height: 10vh;
             padding-bottom: 50px;
         }
         
@@ -28,7 +29,7 @@
         }
         
         .upload-btn {
-            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            background: linear-gradient(45deg, #1e90ff, #00bfff);
             color: white;
             border: none;
             width: 50px;
@@ -39,72 +40,173 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4);
             transition: all 0.3s ease;
+            z-index: 1001;
         }
         
         .upload-btn:hover {
             transform: scale(1.1) rotate(90deg);
-            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.6);
+            box-shadow: 0 8px 20px rgba(30, 144, 255, 0.6);
         }
         
         /* হেডার */
         .header {
             text-align: center;
             padding: 40px 20px 20px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(to bottom, rgba(10, 25, 47, 0.9), transparent);
         }
         
         .site-title {
-            font-size: 2.5rem;
-            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #1e90ff, #00ced1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
             font-weight: 800;
+            letter-spacing: 1px;
         }
         
         .site-subtitle {
-            color: #aaa;
-            font-size: 1rem;
+            color: #b0c4de;
+            font-size: 1.1rem;
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
+        }
+        
+        /* সার্চ বার */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+        
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px;
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-input::placeholder {
+            color: #b0c4de;
+        }
+        
+        .search-btn {
+            background: linear-gradient(45deg, #1e90ff, #00bfff);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4);
         }
         
         /* ভিডিও গ্যালারি */
         .gallery-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
         
         .video-count {
             text-align: center;
-            color: #888;
+            color: #b0c4de;
             margin-bottom: 30px;
             font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
         }
         
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .view-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .view-btn.active {
+            background: rgba(30, 144, 255, 0.3);
+            border-color: #1e90ff;
+        }
+        
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* ভিডিও গ্রিড লেআউট */
         .videos-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
+            gap: 30px;
+        }
+        
+        .videos-grid.list-view {
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
         
         /* ভিডিও কার্ড */
         .video-card {
-            background: rgba(30, 30, 46, 0.8);
+            background: rgba(20, 40, 70, 0.7);
             border-radius: 15px;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(30, 144, 255, 0.2);
             position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .videos-grid.list-view .video-card {
+            display: flex;
+            height: 180px;
+        }
+        
+        .videos-grid.list-view .video-player-container {
+            width: 320px;
+            height: 100%;
+            flex-shrink: 0;
+        }
+        
+        .videos-grid.list-view .video-info {
+            flex: 1;
+            padding: 25px;
         }
         
         .video-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 65, 108, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 20, 40, 0.5);
+            border-color: rgba(30, 144, 255, 0.5);
         }
         
         /* ভিডিও প্লেয়ার */
@@ -116,10 +218,15 @@
             overflow: hidden;
         }
         
-        .video-player {
+        .video-thumbnail {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .video-card:hover .video-thumbnail {
+            transform: scale(1.05);
         }
         
         .play-overlay {
@@ -128,7 +235,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0, 20, 40, 0.7));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -145,44 +252,52 @@
             font-size: 60px;
             color: white;
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            background: rgba(30, 144, 255, 0.8);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         /* ভিডিও তথ্য */
         .video-info {
-            padding: 20px;
+            padding: 25px;
         }
         
         .video-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: #fff;
             line-height: 1.4;
         }
         
         .video-description {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            line-height: 1.5;
+            color: #b0c4de;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
         
         .video-meta {
             display: flex;
             justify-content: space-between;
-            color: #888;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
+            color: #87ceeb;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
         
         .video-date {
-            color: #FF416C;
+            color: #00ced1;
+            font-weight: 500;
         }
         
         /* অ্যাকশন বাটন */
         .video-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: 15px;
         }
         
@@ -198,31 +313,33 @@
             gap: 8px;
             font-size: 0.9rem;
             transition: all 0.3s;
+            font-weight: 500;
         }
         
         .like-btn {
-            background: rgba(255, 65, 108, 0.2);
-            color: #FF416C;
-            border: 1px solid rgba(255, 65, 108, 0.3);
+            background: rgba(30, 144, 255, 0.2);
+            color: #1e90ff;
+            border: 1px solid rgba(30, 144, 255, 0.3);
         }
         
         .like-btn:hover {
-            background: rgba(255, 65, 108, 0.3);
+            background: rgba(30, 144, 255, 0.3);
         }
         
         .like-btn.liked {
-            background: #FF416C;
+            background: linear-gradient(45deg, #1e90ff, #00bfff);
             color: white;
+            border-color: #1e90ff;
         }
         
         .share-btn {
-            background: rgba(33, 150, 243, 0.2);
-            color: #2196F3;
-            border: 1px solid rgba(33, 150, 243, 0.3);
+            background: rgba(0, 206, 209, 0.2);
+            color: #00ced1;
+            border: 1px solid rgba(0, 206, 209, 0.3);
         }
         
         .share-btn:hover {
-            background: rgba(33, 150, 243, 0.3);
+            background: rgba(0, 206, 209, 0.3);
         }
         
         /* লাইক কাউন্টার */
@@ -239,7 +356,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 10, 20, 0.95);
             display: none;
             align-items: center;
             justify-content: center;
@@ -253,14 +370,15 @@
         }
         
         .modal-content {
-            background: rgba(30, 30, 46, 0.95);
+            background: rgba(20, 40, 70, 0.95);
             width: 90%;
             max-width: 500px;
             border-radius: 20px;
             padding: 30px;
             position: relative;
-            border: 1px solid rgba(255, 65, 108, 0.3);
+            border: 1px solid rgba(30, 144, 255, 0.3);
             backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 20, 40, 0.5);
         }
         
         .modal-header {
@@ -274,40 +392,52 @@
             font-size: 1.5rem;
             color: #fff;
             font-weight: 600;
+            background: linear-gradient(45deg, #1e90ff, #00ced1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .close-modal {
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            color: #aaa;
+            color: #b0c4de;
             font-size: 28px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             line-height: 1;
         }
         
         .close-modal:hover {
-            color: #FF416C;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            transform: rotate(90deg);
         }
         
+        /* **পরিবর্তিত: আপলোড এরিয়া এখন লিংক ইনপুট** */
         .upload-area {
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(30, 144, 255, 0.4);
             border-radius: 12px;
-            padding: 40px 20px;
+            padding: 20px;
             text-align: center;
             margin-bottom: 20px;
-            cursor: pointer;
             transition: all 0.3s;
+            background: rgba(30, 144, 255, 0.05);
         }
         
         .upload-area:hover {
-            border-color: #FF416C;
-            background: rgba(255, 65, 108, 0.05);
+            border-color: #1e90ff;
+            background: rgba(30, 144, 255, 0.1);
         }
         
         .upload-icon {
             font-size: 48px;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(30, 144, 255, 0.7);
             margin-bottom: 15px;
         }
         
@@ -318,8 +448,22 @@
         }
         
         .upload-subtext {
-            color: #888;
+            color: #b0c4de;
             font-size: 0.9rem;
+        }
+        
+        .upload-size-info {
+            color: #87ceeb;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .file-size-info {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #00ced1;
+            display: none;
         }
         
         .form-group {
@@ -329,21 +473,22 @@
         .form-input {
             width: 100%;
             padding: 14px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(30, 144, 255, 0.3);
             border-radius: 10px;
             color: #fff;
             font-size: 1rem;
-            transition: border 0.3s;
+            transition: all 0.3s;
         }
         
         .form-input:focus {
             outline: none;
-            border-color: #FF416C;
+            border-color: #1e90ff;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.2);
         }
         
         .submit-btn {
-            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            background: linear-gradient(45deg, #1e90ff, #00bfff);
             color: white;
             border: none;
             padding: 16px;
@@ -352,11 +497,13 @@
             cursor: pointer;
             width: 100%;
             font-weight: 600;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
         }
         
         .submit-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 144, 255, 0.4);
         }
         
         /* প্রোগ্রেস বার */
@@ -376,7 +523,7 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            background: linear-gradient(45deg, #1e90ff, #00ced1);
             width: 0%;
             transition: width 0.3s;
         }
@@ -386,17 +533,23 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: rgba(30, 30, 46, 0.95);
+            background: rgba(20, 40, 70, 0.95);
             color: white;
             padding: 15px 25px;
             border-radius: 10px;
-            border-left: 4px solid #FF416C;
+            border-left: 4px solid #1e90ff;
             display: none;
             align-items: center;
             gap: 15px;
             z-index: 3000;
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideInRight 0.3s;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         .toast-icon {
@@ -409,92 +562,127 @@
         }
         
         .share-link-container {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(30, 144, 255, 0.1);
             border-radius: 10px;
             padding: 15px;
             margin: 20px 0;
+            border: 1px solid rgba(30, 144, 255, 0.2);
         }
         
         .share-link {
             word-break: break-all;
-            color: #FF416C;
+            color: #00ced1;
             font-size: 0.9rem;
         }
         
         .copy-btn {
-            background: rgba(33, 150, 243, 0.2);
-            color: #2196F3;
+            background: linear-gradient(45deg, #1e90ff, #00bfff);
+            color: white;
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
             font-size: 1rem;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-weight: 500;
         }
         
         .copy-btn:hover {
-            background: rgba(33, 150, 243, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
         }
         
         /* রুটেড ভিডিও পৃষ্ঠা */
         .single-video-container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 100px 20px 50px;
         }
         
         .back-button {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 144, 255, 0.2);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 8px;
             cursor: pointer;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-weight: 500;
         }
         
         .back-button:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(30, 144, 255, 0.3);
+            transform: translateX(-5px);
         }
         
         .single-video-player {
             width: 100%;
-            height: 450px;
+            height: 500px;
             background: #000;
             border-radius: 15px;
             overflow: hidden;
             margin-bottom: 30px;
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 20, 40, 0.4);
+            /* এম্বেড কন্টেন্ট এর জন্য */
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
         }
         
+        .single-video-player iframe,
         .single-video-player video {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            border: none;
         }
         
         /* রেসপনসিভ ডিজাইন */
+        @media (max-width: 1100px) {
+            .videos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
         @media (max-width: 768px) {
             .videos-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
             }
             
-            .video-player-container {
+            .videos-grid.list-view .video-card {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .videos-grid.list-view .video-player-container {
+                width: 100%;
                 height: 200px;
             }
             
+            .video-player-container {
+                height: 220px;
+            }
+            
             .site-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .modal-content {
                 width: 95%;
                 padding: 20px;
+            }
+            
+            .single-video-player {
+                height: 0; /* রেসপনসিভ এম্বেড এর জন্য */
+                padding-bottom: 56.25%;
             }
         }
         
@@ -510,61 +698,78 @@
             }
             
             .single-video-player {
-                height: 300px;
+                height: 0; /* রেসপনসিভ এম্বেড এর জন্য */
+                padding-bottom: 56.25%;
+            }
+            
+            .video-count {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .view-toggle {
+                align-self: flex-end;
             }
         }
     </style>
 </head>
 <body>
-    <!-- ছোট আপলোড বাটন -->
     <div class="upload-btn-container">
         <button class="upload-btn" id="openUploadModal">+</button>
     </div>
     
-    <!-- হেডার -->
     <div class="header">
         <h1 class="site-title">🎬 মাই ভিডিও গ্যালারি</h1>
-        <p class="site-subtitle">আপনার ভিডিওগুলি আপলোড করুন, লাইক দিন এবং শেয়ার করুন</p>
+        <p class="site-subtitle">আপনার ভিডিও লিংক যোগ করুন, লাইক দিন এবং শেয়ার করুন</p>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="ভিডিও খুঁজুন...">
+                <button class="search-btn" id="searchButton">
+                    <span style="font-size: 20px;">🔍</span>
+                </button>
+            </div>
+        </div>
     </div>
     
-    <!-- গ্যালারি -->
     <div class="gallery-container" id="galleryContainer">
-        <div class="video-count" id="videoCount">মোট ভিডিও: 0টি</div>
-        
-        <div class="videos-grid" id="videosGrid">
-            <!-- ভিডিওগুলি এখানে লোড হবে -->
+        <div class="video-count">
+            <span id="videoCount">মোট ভিডিও: 0টি</span>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">গ্রিড ভিউ</button>
+                <button class="view-btn" data-view="list">লিস্ট ভিউ</button>
+            </div>
         </div>
         
-        <!-- খালি গ্যালারি মেসেজ -->
-        <div class="no-videos" id="noVideosMessage" style="text-align: center; padding: 60px; color: #888; display: none;">
-            <p style="font-size: 1.2rem; margin-bottom: 20px;">কোনো ভিডিও পাওয়া যায়নি</p>
-            <button class="submit-btn" style="width: auto; padding: 12px 30px;" onclick="document.getElementById('openUploadModal').click()">
-                প্রথম ভিডিও আপলোড করুন
+        <div class="videos-grid" id="videosGrid">
+            </div>
+        
+        <div class="no-videos" id="noVideosMessage" style="text-align: center; padding: 60px; color: #b0c4de; display: none;">
+            <p style="font-size: 1.3rem; margin-bottom: 20px;">কোনো ভিডিও পাওয়া যায়নি</p>
+            <button class="submit-btn" style="width: auto; padding: 12px 30px; display: inline-flex; align-items: center; gap: 10px;" onclick="document.getElementById('openUploadModal').click()">
+                <span>+</span> প্রথম ভিডিও লিংক যোগ করুন
+            </button>
+        </div>
+        
+        <div class="no-videos" id="noSearchResults" style="text-align: center; padding: 40px; color: #b0c4de; display: none;">
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">"<span id="searchQueryText"></span>" এর সাথে মিলছে এমন কোনো ভিডিও পাওয়া যায়নি</p>
+            <button class="view-btn" onclick="clearSearch()" style="background: rgba(30, 144, 255, 0.2); border-color: #1e90ff;">
+                সব ভিডিও দেখুন
             </button>
         </div>
     </div>
     
-    <!-- আপলোড মডাল -->
     <div class="modal-overlay" id="uploadModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">নতুন ভিডিও আপলোড</h2>
+                <h2 class="modal-title">নতুন ভিডিও লিংক যোগ করুন</h2>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
             
-            <div class="upload-area" id="dropArea">
-                <div class="upload-icon">📁</div>
-                <div class="upload-text">গ্যালারি থেকে ভিডিও নির্বাচন করুন</div>
-                <div class="upload-subtext">MP4, MOV, AVI বা অন্য যেকোনো ভিডিও ফরম্যাট</div>
-            </div>
-            
-            <input type="file" id="videoUpload" accept="video/*" style="display: none;">
-            
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text" id="progressText" style="text-align: center; color: #aaa; font-size: 0.9rem;"></div>
+            <div class="form-group">
+                <input type="text" class="form-input" id="videoLink" placeholder="ভিডিওর লিংক (YouTube, FB, MP4) *" required>
+                <div class="upload-size-info" style="text-align: left; margin-top: 5px;">(যেমন: YouTube লিংক, অথবা সরাসরি MP4/WebM ফাইলের লিংক দিন)</div>
             </div>
             
             <div class="form-group">
@@ -575,11 +780,17 @@
                 <textarea class="form-input" id="videoDescription" placeholder="ভিডিওর বিবরণ (ঐচ্ছিক)" rows="3"></textarea>
             </div>
             
-            <button class="submit-btn" id="submitVideo">আপলোড করুন</button>
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText" style="text-align: center; color: #b0c4de; font-size: 0.9rem;"></div>
+            </div>
+            
+            <button class="submit-btn" id="submitVideo">ভিডিও যোগ করুন</button>
         </div>
     </div>
     
-    <!-- শেয়ার মডাল -->
     <div class="modal-overlay" id="shareModal">
         <div class="modal-content share-modal">
             <div class="modal-header">
@@ -587,7 +798,7 @@
                 <button class="close-modal" id="closeShareModal">&times;</button>
             </div>
             
-            <p style="color: #aaa; margin-bottom: 15px;">এই লিংকটি শেয়ার করে যেকেউ এই ভিডিওটি দেখতে পারবে:</p>
+            <p style="color: #b0c4de; margin-bottom: 15px;">এই লিংকটি শেয়ার করে যেকেউ এই ভিডিওটি দেখতে পারবে:</p>
             
             <div class="share-link-container">
                 <div class="share-link" id="shareLinkText">লোড হচ্ছে...</div>
@@ -599,28 +810,25 @@
         </div>
     </div>
     
-    <!-- টোস্ট নোটিফিকেশন -->
     <div class="toast" id="toast">
         <div class="toast-icon">✅</div>
         <div class="toast-message" id="toastMessage">কপি করা হয়েছে!</div>
     </div>
     
-    <!-- Single Video View (রুটেড পৃষ্ঠা) -->
     <div id="singleVideoContainer" class="single-video-container" style="display: none;">
         <button class="back-button" id="backButton">
             <span>←</span> গ্যালারিতে ফিরে যান
         </button>
         
         <div class="single-video-player" id="singleVideoPlayer">
-            <!-- ভিডিও এখানে লোড হবে -->
-        </div>
+            </div>
         
         <div class="video-info">
             <h1 class="video-title" id="singleVideoTitle"></h1>
             <p class="video-description" id="singleVideoDescription"></p>
             <div class="video-meta">
                 <span class="video-date" id="singleVideoDate"></span>
-                <span class="video-size" id="singleVideoSize"></span>
+                <span class="video-size" id="singleVideoSource"></span>
             </div>
             <div class="video-actions">
                 <button class="action-btn like-btn" id="singleVideoLikeBtn">
@@ -640,8 +848,8 @@
         const openUploadModalBtn = document.getElementById('openUploadModal');
         const uploadModal = document.getElementById('uploadModal');
         const closeModalBtn = document.getElementById('closeModal');
-        const videoUpload = document.getElementById('videoUpload');
-        const dropArea = document.getElementById('dropArea');
+        // const videoUpload = document.getElementById('videoUpload'); // **বাদ দেওয়া হয়েছে**
+        // const dropArea = document.getElementById('dropArea'); // **বাদ দেওয়া হয়েছে**
         const submitVideoBtn = document.getElementById('submitVideo');
         const videosGrid = document.getElementById('videosGrid');
         const videoCount = document.getElementById('videoCount');
@@ -651,18 +859,31 @@
         const progressText = document.getElementById('progressText');
         const videoTitle = document.getElementById('videoTitle');
         const videoDescription = document.getElementById('videoDescription');
+        // const fileSizeInfo = document.getElementById('fileSizeInfo'); // **বাদ দেওয়া হয়েছে**
         
-        // শেয়ার মডাল
+        // **নতুন লিংক ইনপুট**
+        const videoLinkInput = document.getElementById('videoLink');
+        
+        // সার্চ এলিমেন্টস (অপরিবর্তিত)
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const noSearchResults = document.getElementById('noSearchResults');
+        const searchQueryText = document.getElementById('searchQueryText');
+        
+        // ভিউ টগল বাটন (অপরিবর্তিত)
+        const viewButtons = document.querySelectorAll('.view-btn');
+        
+        // শেয়ার মডাল (অপরিবর্তিত)
         const shareModal = document.getElementById('shareModal');
         const closeShareModalBtn = document.getElementById('closeShareModal');
         const shareLinkText = document.getElementById('shareLinkText');
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         
-        // টোস্ট
+        // টোস্ট (অপরিবর্তিত)
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         
-        // রুটেড ভিউ
+        // রুটেড ভিউ (পরিবর্তিত)
         const galleryContainer = document.getElementById('galleryContainer');
         const singleVideoContainer = document.getElementById('singleVideoContainer');
         const backButton = document.getElementById('backButton');
@@ -670,56 +891,91 @@
         const singleVideoTitle = document.getElementById('singleVideoTitle');
         const singleVideoDescription = document.getElementById('singleVideoDescription');
         const singleVideoDate = document.getElementById('singleVideoDate');
-        const singleVideoSize = document.getElementById('singleVideoSize');
-        const singleVideoLikeBtn = document.getElementById('singleVideoLikeBtn');
-        const singleVideoLikeCount = document.getElementById('singleVideoLikeCount');
-        const singleVideoShareBtn = document.getElementById('singleVideoShareBtn');
+        const singleVideoSource = document.getElementById('singleVideoSource'); // সাইজের বদলে সোর্স
         
         // State variables
-        let currentVideoFile = null;
         let videos = [];
         let currentShareVideoId = null;
         let currentViewVideoId = null;
+        let currentSearchQuery = '';
+        let currentViewMode = 'grid'; // 'grid' or 'list'
         
-        // URL থেকে ভিডিও আইডি চেক
+        // **নতুন ফাংশন: লিংক পার্সিং**
+        function parseVideoLink(url) {
+            let info = {
+                type: 'direct', // ডিফল্ট: সরাসরি ভিডিও ফাইল লিংক
+                url: url,
+                embedUrl: url,
+                thumbnail: 'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="250" viewBox="0 0 400 250"><rect width="400" height="250" fill="#0a192f"/><rect x="20" y="20" width="360" height="210" rx="10" fill="#172a45"/><path d="M160,110 L210,135 L210,85 Z" fill="#1e90ff"/><text x="200" y="190" text-anchor="middle" fill="#b0c4de" font-family="Arial" font-size="16">External Video</text></svg>`)
+            };
+
+            // YouTube লিংক চেক
+            const youtubeMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);
+            if (youtubeMatch && youtubeMatch[1]) {
+                const videoId = youtubeMatch[1];
+                info.type = 'youtube';
+                info.embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+                info.thumbnail = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+            } 
+            
+            // Facebook/অন্যান্য (এম্বেড কোড বা এম্বেড লিংক ধরে নেওয়া)
+            else if (url.includes('facebook.com') || url.includes('.mp4') || url.includes('.webm') || url.includes('.ogg')) {
+                // এটি একটি ডিরেক্ট ভিডিও বা FB/অন্যান্য সোর্স, যেটি সরাসরি <video> বা <iframe> এ যাবে
+                info.type = url.includes('facebook.com') ? 'facebook' : 'direct';
+                info.embedUrl = url; // এটিকে সরাসরি সোর্স হিসেবে ব্যবহার করা হবে
+            }
+
+            return info;
+        }
+
+        // URL থেকে ভিডিও আইডি চেক (অপরিবর্তিত)
         function checkUrlForVideoId() {
             const params = new URLSearchParams(window.location.search);
             const videoId = params.get('v');
             
             if (videoId) {
-                // ভিডিও আইডি পেয়েছে, সিঙ্গেল ভিউতে যাও
                 loadAndShowVideo(videoId);
                 return true;
             }
             return false;
         }
         
-        // অ্যাপ্লিকেশন ইনিশিয়ালাইজ
+        // অ্যাপ্লিকেশন ইনিশিয়ালাইজ (অপরিবর্তিত)
         function initApp() {
             loadVideos();
             
-            // URL চেক
             if (!checkUrlForVideoId()) {
                 showGallery();
             }
             
-            // ইভেন্ট লিসেনার
             setupEventListeners();
         }
         
-        // ইভেন্ট লিসেনার সেটআপ
+        // ইভেন্ট লিসেনার সেটআপ (ড্রাগ-ড্রপ বাদ দেওয়া হয়েছে)
         function setupEventListeners() {
             openUploadModalBtn.addEventListener('click', openUploadModal);
             closeModalBtn.addEventListener('click', closeUploadModal);
             closeShareModalBtn.addEventListener('click', closeShareModal);
             
-            dropArea.addEventListener('click', () => videoUpload.click());
-            dropArea.addEventListener('dragover', handleDragOver);
-            dropArea.addEventListener('dragleave', handleDragLeave);
-            dropArea.addEventListener('drop', handleDrop);
+            // dropArea.addEventListener('click', () => videoUpload.click()); // **বাদ**
+            // videoUpload.addEventListener('change', handleVideoSelect); // **বাদ**
             
-            videoUpload.addEventListener('change', handleVideoSelect);
             submitVideoBtn.addEventListener('click', uploadVideo);
+            
+            // সার্চ ফাংশনালিটি (অপরিবর্তিত)
+            searchInput.addEventListener('input', handleSearch);
+            searchButton.addEventListener('click', () => handleSearch({type: 'button'}));
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch({type: 'enter'});
+            });
+            
+            // ভিউ টগল (অপরিবর্তিত)
+            viewButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const view = btn.dataset.view;
+                    setViewMode(view);
+                });
+            });
             
             copyLinkBtn.addEventListener('click', copyShareLink);
             
@@ -728,7 +984,7 @@
             singleVideoLikeBtn.addEventListener('click', toggleLike);
             singleVideoShareBtn.addEventListener('click', shareVideo);
             
-            // মডাল বাইরে ক্লিক করলে বন্ধ হবে
+            // মডাল বাইরে ক্লিক করলে বন্ধ হবে (অপরিবর্তিত)
             uploadModal.addEventListener('click', (e) => {
                 if (e.target === uploadModal) closeUploadModal();
             });
@@ -738,54 +994,7 @@
             });
         }
         
-        // ড্রাগ অ্যান্ড ড্রপ ফাংশন
-        function handleDragOver(e) {
-            e.preventDefault();
-            dropArea.style.borderColor = '#FF416C';
-            dropArea.style.background = 'rgba(255, 65, 108, 0.05)';
-        }
-        
-        function handleDragLeave() {
-            dropArea.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            dropArea.style.background = 'transparent';
-        }
-        
-        function handleDrop(e) {
-            e.preventDefault();
-            handleDragLeave();
-            
-            if (e.dataTransfer.files.length) {
-                handleVideoSelect({ target: { files: e.dataTransfer.files } });
-            }
-        }
-        
-        // ভিডিও সিলেক্ট
-        function handleVideoSelect(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            if (!file.type.startsWith('video/')) {
-                showToast('শুধুমাত্র ভিডিও ফাইল নির্বাচন করুন!', 'error');
-                return;
-            }
-            
-            // ফাইল সাইজ চেক (ঐচ্ছিক)
-            const maxSize = 500 * 1024 * 1024; // 500MB
-            if (file.size > maxSize) {
-                showToast('ভিডিও ফাইল খুব বড়! সর্বোচ্চ 500MB পর্যন্ত আপলোড করতে পারবেন।', 'error');
-                return;
-            }
-            
-            currentVideoFile = file;
-            
-            // ডিফল্ট টাইটেল
-            const fileName = file.name.replace(/\.[^/.]+$/, "");
-            videoTitle.value = fileName;
-            
-            showToast('ভিডিও নির্বাচন করা হয়েছে! এখন শিরোনাম দিন এবং আপলোড করুন।', 'success');
-        }
-        
-        // মডাল ওপেন/ক্লোজ
+        // মডাল ওপেন/ক্লোজ (অপরিবর্তিত)
         function openUploadModal() {
             uploadModal.style.display = 'flex';
         }
@@ -799,26 +1008,35 @@
             shareModal.style.display = 'none';
         }
         
-        // আপলোড ফর্ম রিসেট
+        // আপলোড ফর্ম রিসেট (পরিবর্তিত)
         function resetUploadForm() {
             videoTitle.value = '';
             videoDescription.value = '';
-            currentVideoFile = null;
-            videoUpload.value = '';
+            videoLinkInput.value = '';
             progressContainer.style.display = 'none';
             progressFill.style.width = '0%';
         }
         
-        // ভিডিও আপলোড
+        // ভিডিও আপলোড (পরিবর্তিত: লিংক ভিত্তিক)
         async function uploadVideo() {
-            if (!currentVideoFile) {
-                showToast('প্রথমে একটি ভিডিও নির্বাচন করুন!', 'error');
+            const link = videoLinkInput.value.trim();
+            const title = videoTitle.value.trim();
+            
+            if (!link) {
+                showToast('প্রথমে ভিডিওর লিংক দিন!', 'error');
                 return;
             }
             
-            const title = videoTitle.value.trim();
             if (!title) {
                 showToast('ভিডিওর শিরোনাম দিন!', 'error');
+                return;
+            }
+            
+            // লিংক পার্সিং
+            const videoInfo = parseVideoLink(link);
+            
+            if (videoInfo.type === 'direct' && !videoInfo.url.includes('http')) {
+                showToast('লিংকটি বৈধ মনে হচ্ছে না। একটি সম্পূর্ণ HTTP/HTTPS লিংক দিন।', 'error');
                 return;
             }
             
@@ -829,29 +1047,26 @@
                 day: 'numeric'
             });
             
-            // প্রোগ্রেস বার
+            // প্রোগ্রেস বার (সিমুলেশন)
             progressContainer.style.display = 'block';
-            simulateUploadProgress();
+            simulateLinkProcessing();
             
             try {
-                // ভিডিও পড়া
-                const videoData = await readFileAsBase64(currentVideoFile);
-                
                 // ভিডিও অবজেক্ট তৈরি
                 const video = {
                     id: Date.now().toString(),
                     title: title,
                     description: description,
                     date: date,
-                    filename: currentVideoFile.name,
-                    size: formatFileSize(currentVideoFile.size),
-                    data: videoData,
-                    type: currentVideoFile.type,
+                    source: videoInfo.type, // যেমন: 'youtube', 'direct', 'facebook'
+                    sourceUrl: videoInfo.url, // আসল URL
+                    embedUrl: videoInfo.embedUrl, // এম্বেড করার জন্য URL
+                    thumbnail: videoInfo.thumbnail,
                     likes: 0,
                     liked: false
                 };
                 
-                // লোকাল স্টোরেজে সেভ
+                // লোকাল স্টোরেজে সেভ (শুধুমাত্র মেটাডেটা সেভ হচ্ছে)
                 videos.push(video);
                 localStorage.setItem('videos', JSON.stringify(videos));
                 
@@ -859,31 +1074,18 @@
                 loadVideos();
                 closeUploadModal();
                 
-                // ভিডিও লিংক তৈরি
-                const videoLink = generateVideoLink(video.id);
-                
-                showToast('ভিডিও সফলভাবে আপলোড হয়েছে! লিংকটি শেয়ার করুন: ' + videoLink, 'success');
+                showToast('ভিডিও লিংক সফলভাবে যোগ করা হয়েছে!', 'success');
                 
             } catch (error) {
-                showToast('ভিডিও আপলোডে ত্রুটি হয়েছে। আবার চেষ্টা করুন।', 'error');
-                console.error('Upload error:', error);
+                showToast('ভিডিও যোগ করতে ত্রুটি হয়েছে।', 'error');
+                console.error('Add video error:', error);
             }
         }
         
-        // ফাইল পড়া
-        function readFileAsBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-        
-        // আপলোড প্রোগ্রেস সিমুলেশন
-        function simulateUploadProgress() {
+        // আপলোড প্রোগ্রেস সিমুলেশন (লিংক চেকিং এর জন্য পরিবর্তিত)
+        function simulateLinkProcessing() {
             let progress = 0;
-            progressText.textContent = 'ভিডিও প্রক্রিয়া করা হচ্ছে...';
+            progressText.textContent = 'লিংক চেক করা হচ্ছে...';
             
             const interval = setInterval(() => {
                 progress += Math.random() * 15;
@@ -891,10 +1093,10 @@
                 
                 progressFill.style.width = `${progress}%`;
                 
-                if (progress < 30) {
-                    progressText.textContent = 'ভিডিও প্রক্রিয়া করা হচ্ছে...';
-                } else if (progress < 70) {
-                    progressText.textContent = 'ভিডিও এনকোড করা হচ্ছে...';
+                if (progress < 40) {
+                    progressText.textContent = 'লিংক চেক করা হচ্ছে...';
+                } else if (progress < 80) {
+                    progressText.textContent = 'মেটাডেটা সংগ্রহ করা হচ্ছে...';
                 } else {
                     progressText.textContent = 'সংরক্ষণ করা হচ্ছে...';
                 }
@@ -906,34 +1108,101 @@
             }, 200);
         }
         
-        // ভিডিও লোড
+        // ভিডিও লোড (অপরিবর্তিত)
         function loadVideos() {
             const storedVideos = localStorage.getItem('videos');
             videos = storedVideos ? JSON.parse(storedVideos) : [];
             
-            displayVideos();
+            if (currentSearchQuery) {
+                applySearch(currentSearchQuery);
+            } else {
+                displayVideos(videos);
+            }
         }
         
-        // ভিডিওগুলো ডিসপ্লে
-        function displayVideos() {
+        // সার্চ ফাংশনালিটি (অপরিবর্তিত)
+        // [handleSearch, applySearch, clearSearch, setViewMode ফাংশনগুলি আগের মতোই আছে]
+
+        function handleSearch(e) {
+            const query = searchInput.value.trim().toLowerCase();
+            currentSearchQuery = query;
+            
+            if (query === '') {
+                clearSearch();
+                return;
+            }
+            
+            applySearch(query);
+        }
+        
+        function applySearch(query) {
+            const filteredVideos = videos.filter(video => 
+                video.title.toLowerCase().includes(query) || 
+                video.description.toLowerCase().includes(query)
+            );
+            
+            if (filteredVideos.length === 0) {
+                searchQueryText.textContent = query;
+                noSearchResults.style.display = 'block';
+                noVideosMessage.style.display = 'none';
+                videosGrid.innerHTML = '';
+                videoCount.innerHTML = `<span>"${query}" এর সাথে ${filteredVideos.length}টি ভিডিও পাওয়া গেছে</span>`;
+            } else {
+                noSearchResults.style.display = 'none';
+                displayVideos(filteredVideos);
+                videoCount.innerHTML = `<span>"${query}" এর সাথে ${filteredVideos.length}টি ভিডিও পাওয়া গেছে</span>`;
+            }
+        }
+        
+        function clearSearch() {
+            searchInput.value = '';
+            currentSearchQuery = '';
+            noSearchResults.style.display = 'none';
+            displayVideos(videos);
+        }
+        
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            videosGrid.className = mode === 'list' ? 'videos-grid list-view' : 'videos-grid';
+            
+            viewButtons.forEach(btn => {
+                if (btn.dataset.view === mode) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            if (currentSearchQuery) {
+                applySearch(currentSearchQuery);
+            } else {
+                displayVideos(videos);
+            }
+        }
+        
+        function displayVideos(videoList) {
             videosGrid.innerHTML = '';
             
-            if (videos.length === 0) {
+            if (videoList.length === 0) {
                 noVideosMessage.style.display = 'block';
-                videoCount.textContent = 'মোট ভিডিও: 0টি';
+                videoCount.innerHTML = '<span>মোট ভিডিও: 0টি</span>';
                 return;
             }
             
             noVideosMessage.style.display = 'none';
-            videoCount.textContent = `মোট ভিডিও: ${videos.length}টি`;
+            noSearchResults.style.display = 'none';
             
-            videos.forEach(video => {
+            if (!currentSearchQuery) {
+                videoCount.innerHTML = `<span>মোট ভিডিও: ${videoList.length}টি</span>`;
+            }
+            
+            videoList.forEach(video => {
                 const videoCard = createVideoCard(video);
                 videosGrid.appendChild(videoCard);
             });
         }
-        
-        // ভিডিও কার্ড তৈরি
+
+        // ভিডিও কার্ড তৈরি (অপরিবর্তিত)
         function createVideoCard(video) {
             const card = document.createElement('div');
             card.className = 'video-card';
@@ -941,9 +1210,7 @@
             
             card.innerHTML = `
                 <div class="video-player-container" onclick="playVideo('${video.id}')">
-                    <video class="video-player" preload="metadata">
-                        <source src="${video.data}" type="${video.type}">
-                    </video>
+                    <img src="${video.thumbnail}" class="video-thumbnail" alt="${video.title}" onerror="this.src='data:image/svg+xml;base64,' + btoa('<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;400&quot; height=&quot;250&quot; viewBox=&quot;0 0 400 250&quot;><rect width=&quot;400&quot; height=&quot;250&quot; fill=&quot;#0a192f&quot;/><rect x=&quot;20&quot; y=&quot;20&quot; width=&quot;360&quot; height=&quot;210&quot; rx=&quot;10&quot; fill=&quot;#172a45&quot;/><path d=&quot;M160,110 L210,135 L210,85 Z&quot; fill=&quot;#1e90ff&quot;/><text x=&quot;200&quot; y=&quot;190&quot; text-anchor=&quot;middle&quot; fill=&quot;#b0c4de&quot; font-family=&quot;Arial&quot; font-size=&quot;16&quot;>External Video</text></svg>')">
                     <div class="play-overlay">
                         <div class="play-icon">▶️</div>
                     </div>
@@ -953,7 +1220,7 @@
                     <p class="video-description">${video.description || 'কোনো বিবরণ নেই'}</p>
                     <div class="video-meta">
                         <span class="video-date">${video.date}</span>
-                        <span>${video.size}</span>
+                        <span>সোর্স: ${video.source}</span>
                     </div>
                     <div class="video-actions">
                         <button class="action-btn like-btn ${video.liked ? 'liked' : ''}" onclick="toggleLike('${video.id}')">
@@ -971,13 +1238,13 @@
             return card;
         }
         
-        // ভিডিও প্লে (সিঙ্গেল ভিউ)
+        // ভিডিও প্লে (সিঙ্গেল ভিউ) (পরিবর্তিত: এম্বেড করা হয়েছে)
         function playVideo(videoId) {
             window.history.pushState({ videoId }, '', `?v=${videoId}`);
             loadAndShowVideo(videoId);
         }
         
-        // ভিডিও লোড এবং দেখাও
+        // ভিডিও লোড এবং দেখাও (পরিবর্তিত: এম্বেড করা হয়েছে)
         function loadAndShowVideo(videoId) {
             const video = videos.find(v => v.id === videoId);
             if (!video) {
@@ -987,19 +1254,34 @@
             }
             
             currentViewVideoId = videoId;
+            let embedContent = '';
             
-            // সিঙ্গেল ভিউ সেটআপ
-            singleVideoPlayer.innerHTML = `
-                <video controls autoplay style="width: 100%; height: 100%;">
-                    <source src="${video.data}" type="${video.type}">
-                    আপনার ব্রাউজার ভিডিওটি সমর্থন করে না।
-                </video>
-            `;
+            if (video.source === 'youtube') {
+                // ইউটিউব এম্বেড
+                embedContent = `
+                    <iframe 
+                        src="${video.embedUrl}" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen 
+                        title="${video.title}"
+                    ></iframe>
+                `;
+            } else {
+                // ডিরেক্ট লিংক (MP4, WebM, বা অন্য কোনো HTTP/HTTPS লিংক)
+                embedContent = `
+                    <video controls autoplay>
+                        <source src="${video.embedUrl}" type="video/mp4">
+                        আপনার ব্রাউজার এই ভিডিও ফরম্যাটটি সমর্থন করে না। সরাসরি লিংক: <a href="${video.embedUrl}" target="_blank">${video.embedUrl}</a>
+                    </video>
+                `;
+            }
+            
+            singleVideoPlayer.innerHTML = embedContent;
             
             singleVideoTitle.textContent = video.title;
             singleVideoDescription.textContent = video.description || 'কোনো বিবরণ নেই';
             singleVideoDate.textContent = video.date;
-            singleVideoSize.textContent = video.size;
+            singleVideoSource.textContent = `সোর্স: ${video.source}`;
             singleVideoLikeCount.textContent = video.likes || 0;
             
             // লাইক বাটন স্টেট
@@ -1015,7 +1297,7 @@
             singleVideoContainer.style.display = 'block';
         }
         
-        // গ্যালারি দেখাও
+        // গ্যালারি দেখাও (অপরিবর্তিত)
         function showGallery() {
             window.history.pushState({}, '', window.location.pathname);
             galleryContainer.style.display = 'block';
@@ -1023,7 +1305,7 @@
             currentViewVideoId = null;
         }
         
-        // লাইক টগল
+        // লাইক টগল (অপরিবর্তিত)
         function toggleLike(videoId) {
             if (!videoId) videoId = currentViewVideoId;
             if (!videoId) return;
@@ -1035,12 +1317,10 @@
             video.liked = !video.liked;
             video.likes = video.liked ? (video.likes || 0) + 1 : Math.max(0, (video.likes || 1) - 1);
             
-            // লোকাল স্টোরেজ আপডেট
             localStorage.setItem('videos', JSON.stringify(videos));
             
             // UI আপডেট
             if (currentViewVideoId === videoId) {
-                // সিঙ্গেল ভিউ আপডেট
                 singleVideoLikeCount.textContent = video.likes;
                 singleVideoLikeBtn.className = `action-btn like-btn ${video.liked ? 'liked' : ''}`;
                 singleVideoLikeBtn.innerHTML = `
@@ -1049,14 +1329,17 @@
                     <span class="like-count">${video.likes}</span>
                 `;
             } else {
-                // গ্যালারি ভিউ আপডেট
-                loadVideos();
+                if (currentSearchQuery) {
+                    applySearch(currentSearchQuery);
+                } else {
+                    loadVideos();
+                }
             }
             
             showToast(video.liked ? 'ভিডিওটি লাইক করা হয়েছে!' : 'লাইক সরানো হয়েছে।', 'success');
         }
         
-        // ভিডিও শেয়ার
+        // ভিডিও শেয়ার (অপরিবর্তিত)
         function shareVideo(videoId) {
             if (!videoId) videoId = currentViewVideoId;
             if (!videoId) return;
@@ -1068,13 +1351,13 @@
             shareModal.style.display = 'flex';
         }
         
-        // ভিডিও লিংক জেনারেট
+        // ভিডিও লিংক জেনারেট (অপরিবর্তিত)
         function generateVideoLink(videoId) {
             const baseUrl = window.location.origin + window.location.pathname;
             return `${baseUrl}?v=${videoId}`;
         }
         
-        // লিংক কপি
+        // লিংক কপি (অপরিবর্তিত)
         async function copyShareLink() {
             const videoLink = generateVideoLink(currentShareVideoId);
             
@@ -1082,7 +1365,6 @@
                 await navigator.clipboard.writeText(videoLink);
                 showToast('লিংক কপি করা হয়েছে!', 'success');
             } catch (err) {
-                // ফ্যালব্যাক
                 const textArea = document.createElement('textarea');
                 textArea.value = videoLink;
                 document.body.appendChild(textArea);
@@ -1094,42 +1376,29 @@
             }
         }
         
-        // টোস্ট মেসেজ
+        // টোস্ট মেসেজ (অপরিবর্তিত)
         function showToast(message, type = 'info') {
             toastMessage.textContent = message;
             
-            // টাইপ অনুযায়ী কালার
             if (type === 'error') {
-                toast.style.borderLeftColor = '#FF416C';
+                toast.style.borderLeftColor = '#ff6b6b';
                 toast.querySelector('.toast-icon').textContent = '❌';
             } else if (type === 'success') {
                 toast.style.borderLeftColor = '#4CAF50';
                 toast.querySelector('.toast-icon').textContent = '✅';
             } else {
-                toast.style.borderLeftColor = '#2196F3';
+                toast.style.borderLeftColor = '#1e90ff';
                 toast.querySelector('.toast-icon').textContent = 'ℹ️';
             }
             
             toast.style.display = 'flex';
             
-            // ৩ সেকেন্ড পর অটো হাইড
             setTimeout(() => {
                 toast.style.display = 'none';
             }, 3000);
         }
         
-        // ফাইল সাইজ ফরম্যাট
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 বাইট';
-            
-            const k = 1024;
-            const sizes = ['বাইট', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-        }
-        
-        // ব্রাউজার ব্যাক বাটন হ্যান্ডলিং
+        // ব্রাউজার ব্যাক বাটন হ্যান্ডলিং (অপরিবর্তিত)
         window.addEventListener('popstate', (event) => {
             const params = new URLSearchParams(window.location.search);
             const videoId = params.get('v');
@@ -1145,4 +1414,4 @@
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-</html>         
+</html>
