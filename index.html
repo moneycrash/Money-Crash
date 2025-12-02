@@ -1,1113 +1,1148 @@
-<!DOCTYPE html>
-<html lang="en">
+   <!DOCTYPE html>
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cartoon Cash Land - Spin & Earn</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>মাই ভিডিও গ্যালারি</title>
     <style>
-        :root {
-            --primary: #4a6bff;
-            --secondary: #ff6b9d;
-            --accent: #ffcc00;
-            --light: #f0f8ff;
-            --dark: #333366;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --danger: #f44336;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            color: #ffffff;
             min-height: 100vh;
-            color: var(--dark);
-            overflow-x: hidden;
+            padding-bottom: 50px;
         }
-
-        .cloud {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            z-index: -1;
-            animation: float 20s infinite linear;
+        
+        /* ছোট আপলোড বাটন */
+        .upload-btn-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
-
-        .cloud:nth-child(1) {
-            width: 120px;
-            height: 40px;
-            top: 10%;
-            left: 5%;
-            animation-duration: 25s;
-        }
-
-        .cloud:nth-child(2) {
-            width: 180px;
-            height: 60px;
-            top: 25%;
-            right: 10%;
-            animation-duration: 30s;
-        }
-
-        .cloud:nth-child(3) {
-            width: 150px;
+        
+        .upload-btn {
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            color: white;
+            border: none;
+            width: 50px;
             height: 50px;
-            bottom: 20%;
-            left: 15%;
-            animation-duration: 35s;
-        }
-
-        .rainbow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(255,0,0,0.2) 0%, rgba(255,154,0,0.2) 10%, rgba(208,222,33,0.2) 20%, rgba(79,220,74,0.2) 30%, rgba(63,218,216,0.2) 40%, rgba(47,201,226,0.2) 50%, rgba(28,127,238,0.2) 60%, rgba(95,21,242,0.2) 70%, rgba(186,12,248,0.2) 80%, rgba(251,7,217,0.2) 90%, rgba(255,0,0,0.2) 100%);
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        .coin {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: radial-gradient(circle at 30% 30%, #ffcc00, #ff9900);
             border-radius: 50%;
-            box-shadow: 0 0 10px gold;
-            z-index: -1;
-            animation: fall 15s infinite linear;
-        }
-
-        .coin:nth-child(4) {
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 18s;
-        }
-
-        .coin:nth-child(5) {
-            left: 30%;
-            animation-delay: 2s;
-            animation-duration: 20s;
-        }
-
-        .coin:nth-child(6) {
-            left: 60%;
-            animation-delay: 4s;
-            animation-duration: 22s;
-        }
-
-        .coin:nth-child(7) {
-            left: 80%;
-            animation-delay: 6s;
-            animation-duration: 24s;
-        }
-
-        @keyframes float {
-            0% { transform: translateX(-100px); }
-            100% { transform: translateX(calc(100vw + 100px)); }
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 3px solid var(--accent);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .logo i {
-            margin-right: 10px;
-            color: var(--accent);
-        }
-
-        .stats {
-            display: flex;
-            gap: 15px;
-        }
-
-        .stat {
-            background: var(--light);
-            padding: 8px 15px;
-            border-radius: 15px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat i {
-            color: var(--primary);
-        }
-
-        .tabs {
-            display: flex;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
+            font-size: 24px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-
-        .tab.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .wheel-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 30px;
-        }
-
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            border: 10px solid var(--accent);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
-            background: white;
-        }
-
-        .wheel-section {
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: bottom right;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+            transition: all 0.3s ease;
         }
-
-        .wheel-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: white;
-            border-radius: 50%;
-            border: 5px solid var(--accent);
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--dark);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        
+        .upload-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.6);
         }
-
-        .spin-button {
-            display: block;
-            width: 200px;
-            margin: 0 auto;
-            padding: 15px;
-            background: linear-gradient(to bottom, var(--accent), #ff9900);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 204, 0, 0.5);
-            transition: all 0.3s;
+        
+        /* হেডার */
+        .header {
             text-align: center;
+            padding: 40px 20px 20px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
-
-        .spin-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .spin-button:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .ad-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .ad-placeholder {
-            width: 100%;
-            height: 100px;
-            background: #f0f0f0;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .win-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            z-index: 100;
-            display: none;
-            border: 5px solid var(--accent);
-            animation: pop 0.5s;
-        }
-
-        @keyframes pop {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-
-        .win-amount {
+        
+        .site-title {
             font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--success);
-            margin: 15px 0;
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 800;
         }
-
-        .close-popup {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
+        
+        .site-subtitle {
+            color: #aaa;
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
-
-        .referral-container, .withdraw-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
+        
+        /* ভিডিও গ্যালারি */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .info-box {
-            background: var(--light);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--primary);
-        }
-
-        .referral-id {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .referral-link {
-            display: flex;
-            margin-bottom: 15px;
-        }
-
-        .referral-link input {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid var(--primary);
-            border-radius: 10px 0 0 10px;
+        
+        .video-count {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
             font-size: 1rem;
         }
-
-        .copy-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 15px;
-            border-radius: 0 10px 10px 0;
-            cursor: pointer;
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
         }
-
-        .bonus-info {
-            background: linear-gradient(to right, var(--accent), #ff9900);
-            color: white;
-            padding: 15px;
+        
+        /* ভিডিও কার্ড */
+        .video-card {
+            background: rgba(30, 30, 46, 0.8);
             border-radius: 15px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 20px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
-
-        .withdraw-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 65, 108, 0.5);
         }
-
-        .withdraw-option {
-            background: var(--light);
-            padding: 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .withdraw-option:hover {
-            border-color: var(--primary);
-        }
-
-        .withdraw-option i {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .withdraw-option.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .withdraw-option.active i {
-            color: white;
-        }
-
-        .withdraw-form {
-            display: none;
-            margin-top: 20px;
-            background: var(--light);
-            padding: 20px;
-            border-radius: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input {
+        
+        /* ভিডিও প্লেয়ার */
+        .video-player-container {
+            position: relative;
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
+            height: 250px;
+            background: #000;
+            overflow: hidden;
         }
-
-        .form-group input:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-
-        .submit-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
+        
+        .video-player {
             width: 100%;
-            transition: all 0.3s;
+            height: 100%;
+            object-fit: cover;
         }
-
-        .submit-btn:hover {
-            background: var(--dark);
-        }
-
-        .rate-info {
-            background: var(--light);
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
-
-        .error-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            z-index: 100;
-            display: none;
-            border: 5px solid var(--danger);
-            max-width: 90%;
-            width: 400px;
-        }
-
-        .error-icon {
-            font-size: 3rem;
-            color: var(--danger);
-            margin-bottom: 15px;
-        }
-
-        .error-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--danger);
-        }
-
-        .error-message {
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .close-error {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .overlay {
-            position: fixed;
+        
+        .play-overlay {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 99;
-            display: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
         }
-
-        .stage-info {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        
+        .video-player-container:hover .play-overlay {
+            opacity: 1;
         }
-
-        .stage-title {
-            font-weight: bold;
+        
+        .play-icon {
+            font-size: 60px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        /* ভিডিও তথ্য */
+        .video-info {
+            padding: 20px;
+        }
+        
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 600;
             margin-bottom: 10px;
-            color: var(--primary);
-            text-align: center;
+            color: #fff;
+            line-height: 1.4;
         }
-
-        .stage-details {
+        
+        .video-description {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .video-meta {
             display: flex;
             justify-content: space-between;
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .video-date {
+            color: #FF416C;
+        }
+        
+        /* অ্যাকশন বাটন */
+        .video-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .like-btn {
+            background: rgba(255, 65, 108, 0.2);
+            color: #FF416C;
+            border: 1px solid rgba(255, 65, 108, 0.3);
+        }
+        
+        .like-btn:hover {
+            background: rgba(255, 65, 108, 0.3);
+        }
+        
+        .like-btn.liked {
+            background: #FF416C;
+            color: white;
+        }
+        
+        .share-btn {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+        
+        .share-btn:hover {
+            background: rgba(33, 150, 243, 0.3);
+        }
+        
+        /* লাইক কাউন্টার */
+        .like-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* মডাল স্টাইল */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: rgba(30, 30, 46, 0.95);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            border: 1px solid rgba(255, 65, 108, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 28px;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+        
+        .close-modal:hover {
+            color: #FF416C;
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: #FF416C;
+            background: rgba(255, 65, 108, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .upload-subtext {
+            color: #888;
             font-size: 0.9rem;
         }
-
-        .stage-item {
-            text-align: center;
+        
+        .form-group {
+            margin-bottom: 20px;
         }
-
-        .stage-value {
-            font-weight: bold;
-            color: var(--success);
+        
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #FF416C;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* প্রোগ্রেস বার */
+        .progress-container {
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* টোস্ট নোটিফিকেশন */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(30, 30, 46, 0.95);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            border-left: 4px solid #FF416C;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 3000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toast-icon {
+            font-size: 24px;
+        }
+        
+        /* ভিডিও শেয়ার লিংক */
+        .share-modal {
+            max-width: 400px;
+        }
+        
+        .share-link-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .share-link {
+            word-break: break-all;
+            color: #FF416C;
+            font-size: 0.9rem;
+        }
+        
+        .copy-btn {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(33, 150, 243, 0.3);
+        }
+        
+        /* রুটেড ভিডিও পৃষ্ঠা */
+        .single-video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px 50px;
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .single-video-player {
+            width: 100%;
+            height: 450px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .single-video-player video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* রেসপনসিভ ডিজাইন */
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .video-player-container {
+                height: 200px;
+            }
+            
+            .site-title {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .upload-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+            
+            .video-actions {
+                flex-direction: column;
+            }
+            
+            .single-video-player {
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Background elements -->
-    <div class="cloud"></div>
-    <div class="cloud"></div>
-    <div class="cloud"></div>
-    <div class="coin"></div>
-    <div class="coin"></div>
-    <div class="coin"></div>
-    <div class="coin"></div>
-    <div class="rainbow"></div>
-
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-coins"></i>
-                Cartoon Cash Land
-            </div>
-            <div class="stats">
-                <div class="stat">
-                    <i class="fas fa-wallet"></i>
-                    <span id="balance">0৳</span>
-                </div>
-                <div class="stat">
-                    <i class="fas fa-users"></i>
-                    <span id="referrals">0</span>
-                </div>
-            </div>
-        </header>
-
-        <div class="tabs">
-            <div class="tab active" data-tab="home">Home</div>
-            <div class="tab" data-tab="refer">Refer</div>
-            <div class="tab" data-tab="withdraw">Withdraw</div>
+    <!-- ছোট আপলোড বাটন -->
+    <div class="upload-btn-container">
+        <button class="upload-btn" id="openUploadModal">+</button>
+    </div>
+    
+    <!-- হেডার -->
+    <div class="header">
+        <h1 class="site-title">🎬 মাই ভিডিও গ্যালারি</h1>
+        <p class="site-subtitle">আপনার ভিডিওগুলি আপলোড করুন, লাইক দিন এবং শেয়ার করুন</p>
+    </div>
+    
+    <!-- গ্যালারি -->
+    <div class="gallery-container" id="galleryContainer">
+        <div class="video-count" id="videoCount">মোট ভিডিও: 0টি</div>
+        
+        <div class="videos-grid" id="videosGrid">
+            <!-- ভিডিওগুলি এখানে লোড হবে -->
         </div>
-
-        <!-- Home Tab -->
-        <div class="tab-content active" id="home-tab">
-            <div class="wheel-container">
-                <div class="wheel" id="wheel">
-                    <!-- Wheel sections will be generated by JavaScript -->
-                </div>
-                <div class="wheel-center">SPIN</div>
-            </div>
-
-            <button class="spin-button" id="spin-button">Tap to Spin</button>
-
-            <div class="stage-info">
-                <div class="stage-title">Current Stage: <span id="current-stage">1</span></div>
-                <div class="stage-details">
-                    <div class="stage-item">
-                        <div>Spins Left</div>
-                        <div class="stage-value" id="spins-left">10</div>
-                    </div>
-                    <div class="stage-item">
-                        <div>Amount per Spin</div>
-                        <div class="stage-value" id="amount-per-spin">10৳</div>
-                    </div>
-                    <div class="stage-item">
-                        <div>Stage Total</div>
-                        <div class="stage-value" id="stage-total">100৳</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ad-container">
-                <div class="ad-placeholder">
-                    Ad will play after spin
-                </div>
-                <p>Watch an ad to spin the wheel</p>
-            </div>
+        
+        <!-- খালি গ্যালারি মেসেজ -->
+        <div class="no-videos" id="noVideosMessage" style="text-align: center; padding: 60px; color: #888; display: none;">
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">কোনো ভিডিও পাওয়া যায়নি</p>
+            <button class="submit-btn" style="width: auto; padding: 12px 30px;" onclick="document.getElementById('openUploadModal').click()">
+                প্রথম ভিডিও আপলোড করুন
+            </button>
         </div>
-
-        <!-- Refer Tab -->
-        <div class="tab-content" id="refer-tab">
-            <div class="referral-container">
-                <div class="info-box">
-                    <h3>Your Referral Information</h3>
-                    <div class="referral-id">
-                        <i class="fas fa-id-card"></i>
-                        <span>Your Referral ID: <strong id="referral-id">SPIN12345</strong></span>
-                    </div>
-                    <div class="referral-link">
-                        <input type="text" id="referral-link" value="http://t.me/money_crash0_bot?start=SPIN12345" readonly>
-                        <button class="copy-btn" id="copy-btn">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <div class="referral-count">
-                        <i class="fas fa-user-plus"></i>
-                        <span>People referred: <strong id="referral-count">0</strong></span>
-                    </div>
-                </div>
-
-                <div class="bonus-info">
-                    <i class="fas fa-gift"></i>
-                    Refer 6 people to unlock withdraw feature!
-                </div>
+    </div>
+    
+    <!-- আপলোড মডাল -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">নতুন ভিডিও আপলোড</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
             </div>
+            
+            <div class="upload-area" id="dropArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">গ্যালারি থেকে ভিডিও নির্বাচন করুন</div>
+                <div class="upload-subtext">MP4, MOV, AVI বা অন্য যেকোনো ভিডিও ফরম্যাট</div>
+            </div>
+            
+            <input type="file" id="videoUpload" accept="video/*" style="display: none;">
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText" style="text-align: center; color: #aaa; font-size: 0.9rem;"></div>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" class="form-input" id="videoTitle" placeholder="ভিডিওর শিরোনাম *" required>
+            </div>
+            
+            <div class="form-group">
+                <textarea class="form-input" id="videoDescription" placeholder="ভিডিওর বিবরণ (ঐচ্ছিক)" rows="3"></textarea>
+            </div>
+            
+            <button class="submit-btn" id="submitVideo">আপলোড করুন</button>
         </div>
-
-        <!-- Withdraw Tab -->
-        <div class="tab-content" id="withdraw-tab">
-            <div class="withdraw-container">
-                <div class="info-box">
-                    <h3>Withdraw Your Earnings</h3>
-                    <p>Choose your preferred withdrawal method</p>
-                </div>
-
-                <div class="withdraw-options">
-                    <div class="withdraw-option" data-option="bkash">
-                        <i class="fas fa-mobile-alt"></i>
-                        <div>
-                            <div class="option-name">Bkash</div>
-                            <div class="option-min">Minimum: 500৳</div>
-                        </div>
-                    </div>
-                    <div class="withdraw-option" data-option="nagad">
-                        <i class="fas fa-wallet"></i>
-                        <div>
-                            <div class="option-name">Nagad</div>
-                            <div class="option-min">Minimum: 500৳</div>
-                        </div>
-                    </div>
-                    <div class="withdraw-option" data-option="binance">
-                        <i class="fas fa-coins"></i>
-                        <div>
-                            <div class="option-name">Binance (USDT)</div>
-                            <div class="option-min">Minimum: $5</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bkash Form -->
-                <div class="withdraw-form" id="bkash-form">
-                    <div class="form-group">
-                        <label for="bkash-number">Bkash Number</label>
-                        <input type="text" id="bkash-number" placeholder="01XXXXXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label for="bkash-amount">Amount (৳)</label>
-                        <input type="number" id="bkash-amount" placeholder="500" min="500">
-                    </div>
-                    <button class="submit-btn" id="bkash-submit">Withdraw</button>
-                </div>
-
-                <!-- Nagad Form -->
-                <div class="withdraw-form" id="nagad-form">
-                    <div class="form-group">
-                        <label for="nagad-number">Nagad Number</label>
-                        <input type="text" id="nagad-number" placeholder="01XXXXXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label for="nagad-amount">Amount (৳)</label>
-                        <input type="number" id="nagad-amount" placeholder="500" min="500">
-                    </div>
-                    <button class="submit-btn" id="nagad-submit">Withdraw</button>
-                </div>
-
-                <!-- Binance Form -->
-                <div class="withdraw-form" id="binance-form">
-                    <div class="form-group">
-                        <label for="binance-uid">Binance UID</label>
-                        <input type="text" id="binance-uid" placeholder="Enter your UID">
-                    </div>
-                    <div class="form-group">
-                        <label for="binance-amount">Amount ($)</label>
-                        <input type="number" id="binance-amount" placeholder="5" min="5" step="0.01">
-                    </div>
-                    <div class="rate-info">
-                        <p>Current rate: 1 USD = 125৳</p>
-                        <p id="conversion-display">$5 = 625৳</p>
-                    </div>
-                    <button class="submit-btn" id="binance-submit">Withdraw</button>
-                </div>
+    </div>
+    
+    <!-- শেয়ার মডাল -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-content share-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">ভিডিও শেয়ার করুন</h2>
+                <button class="close-modal" id="closeShareModal">&times;</button>
+            </div>
+            
+            <p style="color: #aaa; margin-bottom: 15px;">এই লিংকটি শেয়ার করে যেকেউ এই ভিডিওটি দেখতে পারবে:</p>
+            
+            <div class="share-link-container">
+                <div class="share-link" id="shareLinkText">লোড হচ্ছে...</div>
+            </div>
+            
+            <button class="copy-btn" id="copyLinkBtn">
+                <span>📋 লিংক কপি করুন</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- টোস্ট নোটিফিকেশন -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">✅</div>
+        <div class="toast-message" id="toastMessage">কপি করা হয়েছে!</div>
+    </div>
+    
+    <!-- Single Video View (রুটেড পৃষ্ঠা) -->
+    <div id="singleVideoContainer" class="single-video-container" style="display: none;">
+        <button class="back-button" id="backButton">
+            <span>←</span> গ্যালারিতে ফিরে যান
+        </button>
+        
+        <div class="single-video-player" id="singleVideoPlayer">
+            <!-- ভিডিও এখানে লোড হবে -->
+        </div>
+        
+        <div class="video-info">
+            <h1 class="video-title" id="singleVideoTitle"></h1>
+            <p class="video-description" id="singleVideoDescription"></p>
+            <div class="video-meta">
+                <span class="video-date" id="singleVideoDate"></span>
+                <span class="video-size" id="singleVideoSize"></span>
+            </div>
+            <div class="video-actions">
+                <button class="action-btn like-btn" id="singleVideoLikeBtn">
+                    <span class="like-icon">❤️</span>
+                    <span class="like-text">লাইক</span>
+                    <span class="like-count" id="singleVideoLikeCount">0</span>
+                </button>
+                <button class="action-btn share-btn" id="singleVideoShareBtn">
+                    <span>🔗</span> শেয়ার করুন
+                </button>
             </div>
         </div>
     </div>
-
-    <!-- Win Popup -->
-    <div class="win-popup" id="win-popup">
-        <i class="fas fa-trophy" style="font-size: 3rem; color: var(--accent);"></i>
-        <h2>Congratulations!</h2>
-        <div class="win-amount" id="win-amount">20৳</div>
-        <p>You won <span id="win-text">20৳</span>!</p>
-        <button class="close-popup" id="close-popup">Continue</button>
-    </div>
-
-    <!-- Error Popup -->
-    <div class="error-popup" id="error-popup">
-        <div class="error-icon">
-            <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <div class="error-title">Withdraw Failed</div>
-        <div class="error-message" id="error-message">
-            You need at least 6 referrals to withdraw 500৳. Multiple referrals from the same person won't count.
-        </div>
-        <button class="close-error" id="close-error">OK</button>
-    </div>
-
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Ad Script -->
-    <script data-project-id="3957">
-      !function(){
-        var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
-        var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
-        function l(){
-          sc=document.createElement('script');
-          sc.async=true;
-          sc.src=d[i]+'/script?id='+p;
-          clearTimeout(t);
-          t=setTimeout(function(){
-            sc.onload=sc.onerror=null;
-            sc.src='';
-            if(++i<d.length)l();
-          },15000);
-          sc.onload=function(){clearTimeout(t)};
-          sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
-          document.head.appendChild(sc);
-        }
-        l();
-      }();
-    </script>
 
     <script>
-        // Game data
-        const gameData = {
-            balance: 0,
-            referrals: 0,
-            currentStage: 1,
-            spinsLeft: 10,
-            stages: [
-                { spins: 10, amount: 10, total: 100 },
-                { spins: 5, amount: 20, total: 100 },
-                { spins: 3, amount: 20, total: 60 },
-                { spins: 4, amount: 10, total: 40 },
-                { spins: 1, amount: 50, total: 50 },
-                { spins: 5, amount: 10, total: 50 },
-                { spins: 25, amount: 2, total: 50 },
-                { spins: 50, amount: 1, total: 50 }
-            ],
-            wheelSections: ['1৳', '2৳', '10৳', '20৳', '50৳', '100৳'],
-            wheelColors: ['#FF5252', '#FF9800', '#FFEB3B', '#4CAF50', '#2196F3', '#9C27B0'],
-            isSpinning: false,
-            adInterval: null,
-            referralId: generateReferralId()
-        };
-
-        // Generate a unique referral ID
-        function generateReferralId() {
-            // Try to get existing ID from localStorage
-            let id = localStorage.getItem('referralId');
-            if (id) return id;
+        // DOM elements
+        const openUploadModalBtn = document.getElementById('openUploadModal');
+        const uploadModal = document.getElementById('uploadModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const videoUpload = document.getElementById('videoUpload');
+        const dropArea = document.getElementById('dropArea');
+        const submitVideoBtn = document.getElementById('submitVideo');
+        const videosGrid = document.getElementById('videosGrid');
+        const videoCount = document.getElementById('videoCount');
+        const noVideosMessage = document.getElementById('noVideosMessage');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const videoTitle = document.getElementById('videoTitle');
+        const videoDescription = document.getElementById('videoDescription');
+        
+        // শেয়ার মডাল
+        const shareModal = document.getElementById('shareModal');
+        const closeShareModalBtn = document.getElementById('closeShareModal');
+        const shareLinkText = document.getElementById('shareLinkText');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        
+        // টোস্ট
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        
+        // রুটেড ভিউ
+        const galleryContainer = document.getElementById('galleryContainer');
+        const singleVideoContainer = document.getElementById('singleVideoContainer');
+        const backButton = document.getElementById('backButton');
+        const singleVideoPlayer = document.getElementById('singleVideoPlayer');
+        const singleVideoTitle = document.getElementById('singleVideoTitle');
+        const singleVideoDescription = document.getElementById('singleVideoDescription');
+        const singleVideoDate = document.getElementById('singleVideoDate');
+        const singleVideoSize = document.getElementById('singleVideoSize');
+        const singleVideoLikeBtn = document.getElementById('singleVideoLikeBtn');
+        const singleVideoLikeCount = document.getElementById('singleVideoLikeCount');
+        const singleVideoShareBtn = document.getElementById('singleVideoShareBtn');
+        
+        // State variables
+        let currentVideoFile = null;
+        let videos = [];
+        let currentShareVideoId = null;
+        let currentViewVideoId = null;
+        
+        // URL থেকে ভিডিও আইডি চেক
+        function checkUrlForVideoId() {
+            const params = new URLSearchParams(window.location.search);
+            const videoId = params.get('v');
             
-            // Generate new ID if not exists
-            id = 'SPIN' + Math.floor(10000 + Math.random() * 90000);
-            localStorage.setItem('referralId', id);
-            return id;
-        }
-
-        // Load game data from localStorage
-        function loadGameData() {
-            const savedData = localStorage.getItem('gameData');
-            if (savedData) {
-                const parsedData = JSON.parse(savedData);
-                gameData.balance = parsedData.balance || 0;
-                gameData.referrals = parsedData.referrals || 0;
-                gameData.currentStage = parsedData.currentStage || 1;
-                gameData.spinsLeft = parsedData.spinsLeft || 10;
+            if (videoId) {
+                // ভিডিও আইডি পেয়েছে, সিঙ্গেল ভিউতে যাও
+                loadAndShowVideo(videoId);
+                return true;
             }
+            return false;
         }
-
-        // Save game data to localStorage
-        function saveGameData() {
-            localStorage.setItem('gameData', JSON.stringify({
-                balance: gameData.balance,
-                referrals: gameData.referrals,
-                currentStage: gameData.currentStage,
-                spinsLeft: gameData.spinsLeft
-            }));
-        }
-
-        // DOM Elements
-        const balanceEl = document.getElementById('balance');
-        const referralsEl = document.getElementById('referrals');
-        const referralCountEl = document.getElementById('referral-count');
-        const spinButton = document.getElementById('spin-button');
-        const wheel = document.getElementById('wheel');
-        const winPopup = document.getElementById('win-popup');
-        const winAmount = document.getElementById('win-amount');
-        const winText = document.getElementById('win-text');
-        const closePopup = document.getElementById('close-popup');
-        const errorPopup = document.getElementById('error-popup');
-        const errorMessage = document.getElementById('error-message');
-        const closeError = document.getElementById('close-error');
-        const overlay = document.getElementById('overlay');
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const copyBtn = document.getElementById('copy-btn');
-        const referralLink = document.getElementById('referral-link');
-        const referralIdEl = document.getElementById('referral-id');
-        const withdrawOptions = document.querySelectorAll('.withdraw-option');
-        const withdrawForms = document.querySelectorAll('.withdraw-form');
-        const currentStageEl = document.getElementById('current-stage');
-        const spinsLeftEl = document.getElementById('spins-left');
-        const amountPerSpinEl = document.getElementById('amount-per-spin');
-        const stageTotalEl = document.getElementById('stage-total');
-        const binanceAmount = document.getElementById('binance-amount');
-        const conversionDisplay = document.getElementById('conversion-display');
-
-        // Initialize the wheel
-        function initWheel() {
-            wheel.innerHTML = '';
-            const sectionAngle = 360 / gameData.wheelSections.length;
+        
+        // অ্যাপ্লিকেশন ইনিশিয়ালাইজ
+        function initApp() {
+            loadVideos();
             
-            gameData.wheelSections.forEach((section, index) => {
-                const sectionEl = document.createElement('div');
-                sectionEl.className = 'wheel-section';
-                sectionEl.textContent = section;
-                sectionEl.style.backgroundColor = gameData.wheelColors[index];
-                sectionEl.style.transform = `rotate(${index * sectionAngle}deg)`;
-                wheel.appendChild(sectionEl);
+            // URL চেক
+            if (!checkUrlForVideoId()) {
+                showGallery();
+            }
+            
+            // ইভেন্ট লিসেনার
+            setupEventListeners();
+        }
+        
+        // ইভেন্ট লিসেনার সেটআপ
+        function setupEventListeners() {
+            openUploadModalBtn.addEventListener('click', openUploadModal);
+            closeModalBtn.addEventListener('click', closeUploadModal);
+            closeShareModalBtn.addEventListener('click', closeShareModal);
+            
+            dropArea.addEventListener('click', () => videoUpload.click());
+            dropArea.addEventListener('dragover', handleDragOver);
+            dropArea.addEventListener('dragleave', handleDragLeave);
+            dropArea.addEventListener('drop', handleDrop);
+            
+            videoUpload.addEventListener('change', handleVideoSelect);
+            submitVideoBtn.addEventListener('click', uploadVideo);
+            
+            copyLinkBtn.addEventListener('click', copyShareLink);
+            
+            backButton.addEventListener('click', showGallery);
+            
+            singleVideoLikeBtn.addEventListener('click', toggleLike);
+            singleVideoShareBtn.addEventListener('click', shareVideo);
+            
+            // মডাল বাইরে ক্লিক করলে বন্ধ হবে
+            uploadModal.addEventListener('click', (e) => {
+                if (e.target === uploadModal) closeUploadModal();
+            });
+            
+            shareModal.addEventListener('click', (e) => {
+                if (e.target === shareModal) closeShareModal();
             });
         }
-
-        // Spin the wheel
-        function spinWheel() {
-            if (gameData.isSpinning) return;
+        
+        // ড্রাগ অ্যান্ড ড্রপ ফাংশন
+        function handleDragOver(e) {
+            e.preventDefault();
+            dropArea.style.borderColor = '#FF416C';
+            dropArea.style.background = 'rgba(255, 65, 108, 0.05)';
+        }
+        
+        function handleDragLeave() {
+            dropArea.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            dropArea.style.background = 'transparent';
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            handleDragLeave();
             
-            // Show ad before spinning
-            if (window.showGiga) {
-                window.showGiga()
-                    .then(() => {
-                        // Ad completed successfully, proceed with spin
-                        performSpin();
-                    })
-                    .catch(e => {
-                        // Ad failed, still allow spin for demo purposes
-                        console.log("Ad failed:", e);
-                        performSpin();
-                    });
-            } else {
-                // Ad SDK not loaded, proceed with spin
-                performSpin();
+            if (e.dataTransfer.files.length) {
+                handleVideoSelect({ target: { files: e.dataTransfer.files } });
             }
         }
-
-        // Perform the actual spin
-        function performSpin() {
-            gameData.isSpinning = true;
-            spinButton.disabled = true;
+        
+        // ভিডিও সিলেক্ট
+        function handleVideoSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
             
-            // Get current stage amount
-            const currentAmount = gameData.stages[gameData.currentStage - 1].amount;
-            
-            // Find index of current amount in wheel sections
-            let resultIndex = gameData.wheelSections.findIndex(section => section === `${currentAmount}৳`);
-            
-            // If current amount not found in wheel sections, default to first section
-            if (resultIndex === -1) {
-                resultIndex = 0;
+            if (!file.type.startsWith('video/')) {
+                showToast('শুধুমাত্র ভিডিও ফাইল নির্বাচন করুন!', 'error');
+                return;
             }
             
-            // Calculate rotation (multiple full rotations + offset to land on result)
-            const sectionAngle = 360 / gameData.wheelSections.length;
-            const extraRotation = 5 * 360; // 5 full rotations
-            const resultRotation = extraRotation + (360 - (resultIndex * sectionAngle) - sectionAngle/2);
+            // ফাইল সাইজ চেক (ঐচ্ছিক)
+            const maxSize = 500 * 1024 * 1024; // 500MB
+            if (file.size > maxSize) {
+                showToast('ভিডিও ফাইল খুব বড়! সর্বোচ্চ 500MB পর্যন্ত আপলোড করতে পারবেন।', 'error');
+                return;
+            }
             
-            wheel.style.transform = `rotate(${resultRotation}deg)`;
+            currentVideoFile = file;
             
-            // After spin completes
-            setTimeout(() => {
-                const amountWon = currentAmount;
-                gameData.balance += amountWon;
-                updateUI();
-                saveGameData();
+            // ডিফল্ট টাইটেল
+            const fileName = file.name.replace(/\.[^/.]+$/, "");
+            videoTitle.value = fileName;
+            
+            showToast('ভিডিও নির্বাচন করা হয়েছে! এখন শিরোনাম দিন এবং আপলোড করুন।', 'success');
+        }
+        
+        // মডাল ওপেন/ক্লোজ
+        function openUploadModal() {
+            uploadModal.style.display = 'flex';
+        }
+        
+        function closeUploadModal() {
+            uploadModal.style.display = 'none';
+            resetUploadForm();
+        }
+        
+        function closeShareModal() {
+            shareModal.style.display = 'none';
+        }
+        
+        // আপলোড ফর্ম রিসেট
+        function resetUploadForm() {
+            videoTitle.value = '';
+            videoDescription.value = '';
+            currentVideoFile = null;
+            videoUpload.value = '';
+            progressContainer.style.display = 'none';
+            progressFill.style.width = '0%';
+        }
+        
+        // ভিডিও আপলোড
+        async function uploadVideo() {
+            if (!currentVideoFile) {
+                showToast('প্রথমে একটি ভিডিও নির্বাচন করুন!', 'error');
+                return;
+            }
+            
+            const title = videoTitle.value.trim();
+            if (!title) {
+                showToast('ভিডিওর শিরোনাম দিন!', 'error');
+                return;
+            }
+            
+            const description = videoDescription.value.trim();
+            const date = new Date().toLocaleDateString('bn-BD', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // প্রোগ্রেস বার
+            progressContainer.style.display = 'block';
+            simulateUploadProgress();
+            
+            try {
+                // ভিডিও পড়া
+                const videoData = await readFileAsBase64(currentVideoFile);
                 
-                // Show win popup
-                winAmount.textContent = `${amountWon}৳`;
-                winText.textContent = `${amountWon}৳`;
-                winPopup.style.display = 'block';
-                overlay.style.display = 'block';
+                // ভিডিও অবজেক্ট তৈরি
+                const video = {
+                    id: Date.now().toString(),
+                    title: title,
+                    description: description,
+                    date: date,
+                    filename: currentVideoFile.name,
+                    size: formatFileSize(currentVideoFile.size),
+                    data: videoData,
+                    type: currentVideoFile.type,
+                    likes: 0,
+                    liked: false
+                };
                 
-                // Update spins left and stage
-                gameData.spinsLeft--;
+                // লোকাল স্টোরেজে সেভ
+                videos.push(video);
+                localStorage.setItem('videos', JSON.stringify(videos));
                 
-                if (gameData.spinsLeft <= 0) {
-                    if (gameData.currentStage < gameData.stages.length) {
-                        gameData.currentStage++;
-                        gameData.spinsLeft = gameData.stages[gameData.currentStage - 1].spins;
-                    } else {
-                        // Reset to stage 1 after completing all stages
-                        gameData.currentStage = 1;
-                        gameData.spinsLeft = gameData.stages[0].spins;
-                    }
+                // UI আপডেট
+                loadVideos();
+                closeUploadModal();
+                
+                // ভিডিও লিংক তৈরি
+                const videoLink = generateVideoLink(video.id);
+                
+                showToast('ভিডিও সফলভাবে আপলোড হয়েছে! লিংকটি শেয়ার করুন: ' + videoLink, 'success');
+                
+            } catch (error) {
+                showToast('ভিডিও আপলোডে ত্রুটি হয়েছে। আবার চেষ্টা করুন।', 'error');
+                console.error('Upload error:', error);
+            }
+        }
+        
+        // ফাইল পড়া
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // আপলোড প্রোগ্রেস সিমুলেশন
+        function simulateUploadProgress() {
+            let progress = 0;
+            progressText.textContent = 'ভিডিও প্রক্রিয়া করা হচ্ছে...';
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                
+                progressFill.style.width = `${progress}%`;
+                
+                if (progress < 30) {
+                    progressText.textContent = 'ভিডিও প্রক্রিয়া করা হচ্ছে...';
+                } else if (progress < 70) {
+                    progressText.textContent = 'ভিডিও এনকোড করা হচ্ছে...';
+                } else {
+                    progressText.textContent = 'সংরক্ষণ করা হচ্ছে...';
                 }
                 
-                updateStageInfo();
-                saveGameData();
-                
-                // Reset spinning state
-                setTimeout(() => {
-                    gameData.isSpinning = false;
-                    spinButton.disabled = false;
-                }, 2000);
-            }, 4000);
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    progressText.textContent = 'সম্পন্ন!';
+                }
+            }, 200);
         }
-
-        // Update UI with current game data
-        function updateUI() {
-            balanceEl.textContent = `${gameData.balance}৳`;
-            referralsEl.textContent = gameData.referrals;
-            referralCountEl.textContent = gameData.referrals;
-            referralIdEl.textContent = gameData.referralId;
-            referralLink.value = `http://t.me/money_crash0_bot?start=${gameData.referralId}`;
-        }
-
-        // Update stage information
-        function updateStageInfo() {
-            const currentStage = gameData.stages[gameData.currentStage - 1];
-            currentStageEl.textContent = gameData.currentStage;
-            spinsLeftEl.textContent = gameData.spinsLeft;
-            amountPerSpinEl.textContent = `${currentStage.amount}৳`;
-            stageTotalEl.textContent = `${currentStage.total}৳`;
-        }
-
-        // Update conversion display
-        function updateConversion() {
-            const amount = parseFloat(binanceAmount.value) || 5;
-            const converted = amount * 125;
-            conversionDisplay.textContent = `$${amount} = ${converted}৳`;
-        }
-
-        // Initialize the app
-        function initApp() {
-            // Load saved data
-            loadGameData();
+        
+        // ভিডিও লোড
+        function loadVideos() {
+            const storedVideos = localStorage.getItem('videos');
+            videos = storedVideos ? JSON.parse(storedVideos) : [];
             
-            // Initialize UI
-            initWheel();
-            updateUI();
-            updateStageInfo();
+            displayVideos();
+        }
+        
+        // ভিডিওগুলো ডিসপ্লে
+        function displayVideos() {
+            videosGrid.innerHTML = '';
             
-            // Set up event listeners
-            spinButton.addEventListener('click', spinWheel);
+            if (videos.length === 0) {
+                noVideosMessage.style.display = 'block';
+                videoCount.textContent = 'মোট ভিডিও: 0টি';
+                return;
+            }
             
-            closePopup.addEventListener('click', () => {
-                winPopup.style.display = 'none';
-                overlay.style.display = 'none';
+            noVideosMessage.style.display = 'none';
+            videoCount.textContent = `মোট ভিডিও: ${videos.length}টি`;
+            
+            videos.forEach(video => {
+                const videoCard = createVideoCard(video);
+                videosGrid.appendChild(videoCard);
             });
+        }
+        
+        // ভিডিও কার্ড তৈরি
+        function createVideoCard(video) {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.dataset.videoId = video.id;
             
-            closeError.addEventListener('click', () => {
-                errorPopup.style.display = 'none';
-                overlay.style.display = 'none';
-            });
+            card.innerHTML = `
+                <div class="video-player-container" onclick="playVideo('${video.id}')">
+                    <video class="video-player" preload="metadata">
+                        <source src="${video.data}" type="${video.type}">
+                    </video>
+                    <div class="play-overlay">
+                        <div class="play-icon">▶️</div>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title" title="${video.title}">${video.title}</h3>
+                    <p class="video-description">${video.description || 'কোনো বিবরণ নেই'}</p>
+                    <div class="video-meta">
+                        <span class="video-date">${video.date}</span>
+                        <span>${video.size}</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn like-btn ${video.liked ? 'liked' : ''}" onclick="toggleLike('${video.id}')">
+                            <span class="like-icon">${video.liked ? '❤️' : '🤍'}</span>
+                            <span class="like-text">${video.liked ? 'লাইকড' : 'লাইক'}</span>
+                            <span class="like-count">${video.likes || 0}</span>
+                        </button>
+                        <button class="action-btn share-btn" onclick="shareVideo('${video.id}')">
+                            <span>🔗</span> শেয়ার
+                        </button>
+                    </div>
+                </div>
+            `;
             
-            // Tab switching
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
-                    
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    document.getElementById(`${tabId}-tab`).classList.add('active');
-                });
-            });
+            return card;
+        }
+        
+        // ভিডিও প্লে (সিঙ্গেল ভিউ)
+        function playVideo(videoId) {
+            window.history.pushState({ videoId }, '', `?v=${videoId}`);
+            loadAndShowVideo(videoId);
+        }
+        
+        // ভিডিও লোড এবং দেখাও
+        function loadAndShowVideo(videoId) {
+            const video = videos.find(v => v.id === videoId);
+            if (!video) {
+                showToast('ভিডিওটি পাওয়া যায়নি!', 'error');
+                showGallery();
+                return;
+            }
             
-            // Copy referral link
-            copyBtn.addEventListener('click', () => {
-                referralLink.select();
+            currentViewVideoId = videoId;
+            
+            // সিঙ্গেল ভিউ সেটআপ
+            singleVideoPlayer.innerHTML = `
+                <video controls autoplay style="width: 100%; height: 100%;">
+                    <source src="${video.data}" type="${video.type}">
+                    আপনার ব্রাউজার ভিডিওটি সমর্থন করে না।
+                </video>
+            `;
+            
+            singleVideoTitle.textContent = video.title;
+            singleVideoDescription.textContent = video.description || 'কোনো বিবরণ নেই';
+            singleVideoDate.textContent = video.date;
+            singleVideoSize.textContent = video.size;
+            singleVideoLikeCount.textContent = video.likes || 0;
+            
+            // লাইক বাটন স্টেট
+            singleVideoLikeBtn.className = `action-btn like-btn ${video.liked ? 'liked' : ''}`;
+            singleVideoLikeBtn.innerHTML = `
+                <span class="like-icon">${video.liked ? '❤️' : '🤍'}</span>
+                <span class="like-text">${video.liked ? 'লাইকড' : 'লাইক'}</span>
+                <span class="like-count">${video.likes || 0}</span>
+            `;
+            
+            // ভিউ দেখাও
+            galleryContainer.style.display = 'none';
+            singleVideoContainer.style.display = 'block';
+        }
+        
+        // গ্যালারি দেখাও
+        function showGallery() {
+            window.history.pushState({}, '', window.location.pathname);
+            galleryContainer.style.display = 'block';
+            singleVideoContainer.style.display = 'none';
+            currentViewVideoId = null;
+        }
+        
+        // লাইক টগল
+        function toggleLike(videoId) {
+            if (!videoId) videoId = currentViewVideoId;
+            if (!videoId) return;
+            
+            const videoIndex = videos.findIndex(v => v.id === videoId);
+            if (videoIndex === -1) return;
+            
+            const video = videos[videoIndex];
+            video.liked = !video.liked;
+            video.likes = video.liked ? (video.likes || 0) + 1 : Math.max(0, (video.likes || 1) - 1);
+            
+            // লোকাল স্টোরেজ আপডেট
+            localStorage.setItem('videos', JSON.stringify(videos));
+            
+            // UI আপডেট
+            if (currentViewVideoId === videoId) {
+                // সিঙ্গেল ভিউ আপডেট
+                singleVideoLikeCount.textContent = video.likes;
+                singleVideoLikeBtn.className = `action-btn like-btn ${video.liked ? 'liked' : ''}`;
+                singleVideoLikeBtn.innerHTML = `
+                    <span class="like-icon">${video.liked ? '❤️' : '🤍'}</span>
+                    <span class="like-text">${video.liked ? 'লাইকড' : 'লাইক'}</span>
+                    <span class="like-count">${video.likes}</span>
+                `;
+            } else {
+                // গ্যালারি ভিউ আপডেট
+                loadVideos();
+            }
+            
+            showToast(video.liked ? 'ভিডিওটি লাইক করা হয়েছে!' : 'লাইক সরানো হয়েছে।', 'success');
+        }
+        
+        // ভিডিও শেয়ার
+        function shareVideo(videoId) {
+            if (!videoId) videoId = currentViewVideoId;
+            if (!videoId) return;
+            
+            currentShareVideoId = videoId;
+            const videoLink = generateVideoLink(videoId);
+            
+            shareLinkText.textContent = videoLink;
+            shareModal.style.display = 'flex';
+        }
+        
+        // ভিডিও লিংক জেনারেট
+        function generateVideoLink(videoId) {
+            const baseUrl = window.location.origin + window.location.pathname;
+            return `${baseUrl}?v=${videoId}`;
+        }
+        
+        // লিংক কপি
+        async function copyShareLink() {
+            const videoLink = generateVideoLink(currentShareVideoId);
+            
+            try {
+                await navigator.clipboard.writeText(videoLink);
+                showToast('লিংক কপি করা হয়েছে!', 'success');
+            } catch (err) {
+                // ফ্যালব্যাক
+                const textArea = document.createElement('textarea');
+                textArea.value = videoLink;
+                document.body.appendChild(textArea);
+                textArea.select();
                 document.execCommand('copy');
-                alert('Referral link copied to clipboard!');
-            });
-            
-            // Withdraw option selection
-            withdrawOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    const optionType = option.getAttribute('data-option');
-                    
-                    withdrawOptions.forEach(opt => opt.classList.remove('active'));
-                    withdrawForms.forEach(form => form.style.display = 'none');
-                    
-                    option.classList.add('active');
-                    document.getElementById(`${optionType}-form`).style.display = 'block';
-                });
-            });
-            
-            // Withdraw form submissions
-            document.getElementById('bkash-submit').addEventListener('click', handleWithdraw);
-            document.getElementById('nagad-submit').addEventListener('click', handleWithdraw);
-            document.getElementById('binance-submit').addEventListener('click', handleWithdraw);
-            
-            // Binance amount conversion
-            binanceAmount.addEventListener('input', updateConversion);
-            
-            // Initialize conversion display
-            updateConversion();
+                document.body.removeChild(textArea);
+                
+                showToast('লিংক কপি করা হয়েছে!', 'success');
+            }
         }
-
-        // Handle withdraw attempts
-        function handleWithdraw(e) {
-            e.preventDefault();
+        
+        // টোস্ট মেসেজ
+        function showToast(message, type = 'info') {
+            toastMessage.textContent = message;
             
-            if (gameData.balance < 500) {
-                showError('You need at least 500৳ balance to withdraw.');
-                return;
+            // টাইপ অনুযায়ী কালার
+            if (type === 'error') {
+                toast.style.borderLeftColor = '#FF416C';
+                toast.querySelector('.toast-icon').textContent = '❌';
+            } else if (type === 'success') {
+                toast.style.borderLeftColor = '#4CAF50';
+                toast.querySelector('.toast-icon').textContent = '✅';
+            } else {
+                toast.style.borderLeftColor = '#2196F3';
+                toast.querySelector('.toast-icon').textContent = 'ℹ️';
             }
             
-            if (gameData.referrals < 6) {
-                showError('You need at least 6 referrals to withdraw 500৳. Multiple referrals from the same person won\'t count.');
-                return;
-            }
+            toast.style.display = 'flex';
             
-            // If conditions are met, show success message
-            alert('Withdrawal request submitted successfully! It will be processed within 24 hours.');
+            // ৩ সেকেন্ড পর অটো হাইড
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
         }
-
-        // Show error popup
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorPopup.style.display = 'block';
-            overlay.style.display = 'block';
+        
+        // ফাইল সাইজ ফরম্যাট
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 বাইট';
+            
+            const k = 1024;
+            const sizes = ['বাইট', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
         }
-
-        // Initialize the app when DOM is loaded
+        
+        // ব্রাউজার ব্যাক বাটন হ্যান্ডলিং
+        window.addEventListener('popstate', (event) => {
+            const params = new URLSearchParams(window.location.search);
+            const videoId = params.get('v');
+            
+            if (videoId) {
+                loadAndShowVideo(videoId);
+            } else {
+                showGallery();
+            }
+        });
+        
+        // অ্যাপ্লিকেশন শুরু
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-</html>
+</html>         
